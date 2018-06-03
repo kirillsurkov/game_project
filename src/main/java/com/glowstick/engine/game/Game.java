@@ -1,5 +1,6 @@
 package com.glowstick.engine.game;
 
+import com.glowstick.engine.builders.EntityBuilder;
 import com.glowstick.engine.game.scenes.Scene01;
 import com.glowstick.engine.graphics.Graphics;
 import com.glowstick.engine.service.Window;
@@ -22,11 +23,14 @@ public class Game {
     private InputListener inputListener;
     @Autowired
     private MainMenu mainMenu;
+    @Autowired
+    private EntityBuilder entityBuilder;
     private Scene scene;
     private boolean paused = true;
 
     @PostConstruct
-    private void init() {
+    private void init() throws Exception {
+        this.scene = new Scene01(this.entityBuilder);
         this.graphics.setOnDraw(this::update);
         this.graphics.loop();
     }

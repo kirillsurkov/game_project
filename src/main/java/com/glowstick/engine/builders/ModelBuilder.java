@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class ModelBuilder implements Builder<Model> {
         List<Vertex> vertices = new ArrayList<>();
         List<Point> points = new ArrayList<>();
         Resource resource = resourceLoader.getResource("classpath:models/" + name + "/model.obj");
-        FileReader fileReader = new FileReader(resource.getFile());
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        InputStreamReader streamReader = new InputStreamReader(resource.getInputStream());
+        BufferedReader bufferedReader = new BufferedReader(streamReader);
         bufferedReader.lines().forEach(line -> {
             String[] data = line.split(" ");
             for(String op : data) {
@@ -48,6 +49,6 @@ public class ModelBuilder implements Builder<Model> {
                 }
             }
         });
-        return new Model(name, this.shaderCache.get("alternative"), vertices);
+        return new Model(name, this.shaderCache.get("default"), vertices);
     }
 }

@@ -1,6 +1,5 @@
 package com.glowstick.engine.service;
 
-import com.glowstick.engine.service.InputListener;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 

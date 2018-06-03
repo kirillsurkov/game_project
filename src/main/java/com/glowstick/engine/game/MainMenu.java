@@ -15,12 +15,8 @@ public class MainMenu {
     private Model model;
 
     @PostConstruct
-    private void init() {
-        try {
-            this.model = this.modelCache.get("dummy");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void init() throws Exception {
+        this.model = this.modelCache.get("dummy");
     }
 
     public void draw() {

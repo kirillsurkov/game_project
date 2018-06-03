@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.function.Consumer;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
@@ -20,7 +21,8 @@ public class Graphics {
     @Setter
     private Consumer<Double> onDraw;
 
-    public Graphics() {
+    @PostConstruct
+    private void init() {
         GL.createCapabilities();
     }
 

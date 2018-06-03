@@ -1,5 +1,6 @@
-package com.glowstick.engine.builders.shaderbuilders;
+package com.glowstick.engine.builders.shader;
 
+import com.glowstick.engine.builders.NamedBuilder;
 import com.glowstick.engine.graphics.Shader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -8,24 +9,25 @@ import org.springframework.core.io.ResourceLoader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 import static org.lwjgl.opengl.GL20.*;
 
-public abstract class AbstractShaderBuilder<T extends Shader> {
+public abstract class NamedShaderBuilder<T extends Shader> implements NamedBuilder<T> {
     @Autowired
     private ResourceLoader resourceLoader;
 
     abstract protected T build(int program);
-    abstract public String getName();
 
     private String loadSource(String shaderName, String fileName) throws IOException {
         Resource res = resourceLoader.getResource("classpath:shaders/" + shaderName + "/" + fileName);
-        FileReader fileReader = new FileReader(res.getFile());
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        InputStreamReader streamReader = new InputStreamReader(res.getInputStream());
+        BufferedReader bufferedReader = new BufferedReader(streamReader);
         return String.join("\n", bufferedReader.lines().collect(Collectors.toList()));
     }
 
+    @Override
     public T build() throws IOException {
         String vShaderSrc = loadSource(this.getName(), "vertex.glsl");
         int vShader = glCreateShader(GL_VERTEX_SHADER);

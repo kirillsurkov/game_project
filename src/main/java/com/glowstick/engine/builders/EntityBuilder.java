@@ -1,7 +1,7 @@
 package com.glowstick.engine.builders;
 
-import com.glowstick.engine.builders.shader.NamedShaderBuilder;
-import com.glowstick.engine.graphics.Shader;
+import com.glowstick.engine.builders.entity.NamedEntityBuilder;
+import com.glowstick.engine.service.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,25 +11,25 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class ShaderBuilder implements Builder<Shader> {
+public class EntityBuilder implements Builder<Entity> {
     @Autowired
-    private List<? extends NamedShaderBuilder> builders;
+    private List<? extends NamedEntityBuilder> builders;
 
-    private Map<String, NamedShaderBuilder> buildersByName = new HashMap<>();
+    private Map<String, NamedEntityBuilder> buildersByName = new HashMap<>();
 
     @PostConstruct
     private void init() {
         this.builders.forEach(builder ->
-            this.buildersByName.put(builder.getName(), builder)
+                this.buildersByName.put(builder.getName(), builder)
         );
     }
 
     @Override
-    public Shader build(String name) throws Exception {
+    public Entity build(String name) throws Exception {
         if (this.buildersByName.containsKey(name)) {
             return this.buildersByName.get(name).build();
         } else {
-            throw new Exception("Shader '" + name + "' not found");
+            throw new Exception("Entity '" + name + "' not found");
         }
     }
 }
