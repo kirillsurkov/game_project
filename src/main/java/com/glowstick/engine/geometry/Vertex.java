@@ -1,12 +1,13 @@
 package com.glowstick.engine.geometry;
 
 import lombok.Getter;
+import org.lwjgl.util.vector.Vector3f;
 
 @Getter
 public class Vertex {
-    private Point coodrs;
+    private Vector3f coodrs;
 
-    public Vertex(Point coords) {
+    public Vertex(Vector3f coords) {
         this.coodrs = coords;
     }
 }

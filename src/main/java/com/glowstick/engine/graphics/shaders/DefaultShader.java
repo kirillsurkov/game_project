@@ -1,8 +1,9 @@
 package com.glowstick.engine.graphics.shaders;
 
 import com.glowstick.engine.graphics.Shader;
+import com.glowstick.engine.service.Entity;
 
-import static org.lwjgl.opengl.GL11.GL_DOUBLE;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
@@ -12,9 +13,13 @@ public class DefaultShader extends Shader {
     }
 
     @Override
-    public void link() {
+    public void linkAttributes() {
         int posAttrib = this.getAttribLocation("position");
-        glVertexAttribPointer(posAttrib, 2, GL_DOUBLE, false, 0, 0);
+        glVertexAttribPointer(posAttrib, 2, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(posAttrib);
+    }
+
+    @Override
+    public void linkUniforms(Entity entity) {
     }
 }

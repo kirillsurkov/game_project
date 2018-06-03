@@ -21,16 +21,21 @@ public class Graphics {
     @Setter
     private Consumer<Double> onDraw;
 
+    private double oldTime;
+
     @PostConstruct
     private void init() {
         GL.createCapabilities();
     }
 
     public void loop() {
+        this.oldTime = System.nanoTime() / 1000000000.0;
         glClearColor(0, 0, 0, 1);
         while (!glfwWindowShouldClose(this.window.getId())) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            this.onDraw.accept(0.0);
+            double time = System.nanoTime() / 1000000000.0;
+            this.onDraw.accept(time - this.oldTime);
+            this.oldTime = time;
             glfwSwapBuffers(this.window.getId());
             glfwPollEvents();
         }
@@ -38,8 +43,5 @@ public class Graphics {
 
     public void setClearColor(float r, float g, float b) {
         glClearColor(r, g, b, 1);
-    }
-
-    public void drawText(String text, int x, int y) {
     }
 }

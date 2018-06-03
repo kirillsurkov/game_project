@@ -1,22 +1,20 @@
 package com.glowstick.engine.game.entities;
 
 import com.glowstick.engine.caches.ModelCache;
-import com.glowstick.engine.graphics.Model;
+import com.glowstick.engine.caches.ShaderCache;
 import com.glowstick.engine.service.Entity;
 
 public class CubeEntity extends Entity {
-    private Model model;
+    private double time = 0;
 
-    public CubeEntity(ModelCache modelCache) throws Exception {
-        this.model = modelCache.get("triangle");
+    public CubeEntity(ModelCache modelCache, ShaderCache shaderCache) throws Exception {
+        super(modelCache, shaderCache);
+        this.addModel("triangle", "alternative");
     }
 
     @Override
     public void update(double delta) {
-    }
-
-    @Override
-    public void draw() {
-        this.model.draw();
+        this.time += delta;
+        this.move((float)Math.cos(this.time * 10) / 10.0f, (float)Math.sin(this.time * 10) / 10.0f);
     }
 }

@@ -15,8 +15,10 @@ public abstract class Scene {
         this.entities = new ArrayList<>();
     }
 
-    protected void addEntity(String name) throws Exception {
-        this.entities.add(this.entityBuilder.build(name));
+    protected Entity addEntity(String name) throws Exception {
+        Entity entity = this.entityBuilder.build(name);
+        this.entities.add(entity);
+        return entity;
     }
 
     public void draw(double delta) {

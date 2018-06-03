@@ -1,16 +1,15 @@
 package com.glowstick.engine.builders;
 
 import com.glowstick.engine.caches.ShaderCache;
-import com.glowstick.engine.geometry.Point;
 import com.glowstick.engine.geometry.Vertex;
 import com.glowstick.engine.graphics.Model;
+import org.lwjgl.util.vector.Vector3f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class ModelBuilder implements Builder<Model> {
     @Override
     public Model build(String name) throws Exception {
         List<Vertex> vertices = new ArrayList<>();
-        List<Point> points = new ArrayList<>();
+        List<Vector3f> points = new ArrayList<>();
         Resource resource = resourceLoader.getResource("classpath:models/" + name + "/model.obj");
         InputStreamReader streamReader = new InputStreamReader(resource.getInputStream());
         BufferedReader bufferedReader = new BufferedReader(streamReader);
@@ -34,9 +33,10 @@ public class ModelBuilder implements Builder<Model> {
             String[] data = line.split(" ");
             for(String op : data) {
                 if ("v".equals(op)) {
-                    points.add(new Point(
-                            Double.valueOf(data[1]),
-                            Double.valueOf(data[3])
+                    points.add(new Vector3f(
+                            Float.valueOf(data[1]),
+                            Float.valueOf(data[3]),
+                            0
                     ));
                 }
                 if ("f".equals(op)) {
@@ -49,6 +49,11 @@ public class ModelBuilder implements Builder<Model> {
                 }
             }
         });
-        return new Model(name, this.shaderCache.get("default"), vertices);
+        float[] rawVertices = new float[vertices.size() * 2];
+        for (int i = 0; i < vertices.size(); i++) {
+            rawVertices[i*2] = vertices.get(i).getCoodrs().getX();
+            rawVertices[i*2+1] = vertices.get(i).getCoodrs().getY();
+        }
+        return new Model(name, rawVertices, vertices.size());
     }
 }
