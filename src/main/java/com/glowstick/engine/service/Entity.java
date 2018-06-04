@@ -2,6 +2,7 @@ package com.glowstick.engine.service;
 
 import com.glowstick.engine.caches.ModelCache;
 import com.glowstick.engine.caches.ShaderCache;
+import com.glowstick.engine.game.Camera;
 import com.glowstick.engine.graphics.Model;
 import com.glowstick.engine.graphics.Shader;
 import javafx.util.Pair;
@@ -17,14 +18,9 @@ public abstract class Entity {
     private ShaderCache shaderCache;
     private List<Pair<Model, Shader>> models = new ArrayList<>();
     @Getter
-    private float scale = 1.0f;
-    @Getter
-    private Vector3f coords = new Vector3f();
+    private Matrix4f modelMatrix = new Matrix4f();
     @Getter
     private Vector3f color = new Vector3f();
-    private Matrix4f modelMatrix = new Matrix4f();
-    private Matrix4f viewMatrix = new Matrix4f();
-    private Matrix4f projectionMatrix = new Matrix4f();
 
     public Entity(ModelCache modelCache, ShaderCache shaderCache) {
         this.modelCache = modelCache;
@@ -36,7 +32,7 @@ public abstract class Entity {
     }
 
     public Entity scale(float scale) {
-        this.scale = scale;
+        this.modelMatrix.scale(new Vector3f(scale, scale, scale));
         return this;
     }
 
@@ -48,14 +44,13 @@ public abstract class Entity {
     }
 
     public Entity move(float x, float y) {
-        this.coords.x += x;
-        this.coords.y += y;
+        this.modelMatrix.translate(new Vector3f(x, y, 0));
         return this;
     }
 
-    public void draw() {
+    public void draw(Camera camera) {
         this.models.forEach(pair -> {
-            pair.getKey().draw(pair.getValue(), this);
+            pair.getKey().draw(pair.getValue(), camera, this);
         });
     }
 

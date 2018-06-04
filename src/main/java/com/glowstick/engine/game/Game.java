@@ -22,15 +22,17 @@ public class Game {
     @Autowired
     private InputListener inputListener;
     @Autowired
-    private MainMenu mainMenu;
+    private Camera camera;
     @Autowired
     private EntityBuilder entityBuilder;
+    @Autowired
+    private MainMenu mainMenu;
     private Scene scene;
     private boolean paused = true;
 
     @PostConstruct
     private void init() throws Exception {
-        this.scene = new Scene01(this.entityBuilder);
+        this.scene = new Scene01(this.camera, this.entityBuilder);
         this.graphics.setOnDraw(this::update);
         this.graphics.loop();
     }
@@ -39,7 +41,7 @@ public class Game {
         if (this.inputListener.isKeyDown(GLFW_KEY_Q)) window.close();
         if (this.inputListener.isKeyPressed(GLFW_KEY_ESCAPE)) this.paused = !this.paused;
         if (this.paused) {
-            this.mainMenu.draw();
+            this.mainMenu.draw(this.camera);
         } else {
             this.scene.draw(delta);
         }

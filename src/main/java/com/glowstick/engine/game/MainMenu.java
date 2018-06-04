@@ -26,7 +26,7 @@ public class MainMenu {
         this.shader = this.shaderCache.get("default");
     }
 
-    public void draw() {
-        this.model.draw(this.shader, null);
+    public void draw(Camera camera) {
+        this.model.draw(this.shader, camera, null);
     }
 }

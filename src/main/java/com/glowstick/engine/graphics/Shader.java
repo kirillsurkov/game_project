@@ -1,5 +1,6 @@
 package com.glowstick.engine.graphics;
 
+import com.glowstick.engine.game.Camera;
 import com.glowstick.engine.service.Cacheable;
 import com.glowstick.engine.service.Entity;
 
@@ -20,7 +21,7 @@ public abstract class Shader extends Cacheable {
     }
 
     abstract protected void linkAttributes();
-    abstract protected void linkUniforms(Entity entity);
+    abstract protected void linkUniforms(Camera camera, Entity entity);
 
     private void use() {
         glUseProgram(this.program);
@@ -35,8 +36,8 @@ public abstract class Shader extends Cacheable {
         return glGetUniformLocation(this.program, uniform);
     }
 
-    public void bind(Entity entity) {
-        this.linkUniforms(entity);
+    public void bind(Camera camera, Entity entity) {
+        this.linkUniforms(camera, entity);
         this.use();
     }
 }

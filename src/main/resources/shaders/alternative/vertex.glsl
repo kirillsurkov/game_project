@@ -3,6 +3,7 @@
 uniform float uScale;
 uniform vec3 uOffset;
 uniform vec3 uColor;
+uniform mat4 uMVP;
 
 in vec2 position;
 out vec3 color;
@@ -10,5 +11,5 @@ out vec3 color;
 void main()
 {
     color = uColor;
-    gl_Position = vec4(uScale * (position + uOffset.xy), 0.0, 1.0);
+    gl_Position = uMVP * vec4(position, 0.0, 1.0);
 }

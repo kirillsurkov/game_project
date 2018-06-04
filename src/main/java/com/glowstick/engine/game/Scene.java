@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Scene {
+    private Camera camera;
     private EntityBuilder entityBuilder;
     private List<Entity> entities;
 
-    protected Scene(EntityBuilder entityBuilder) {
+    protected Scene(Camera camera, EntityBuilder entityBuilder) {
+        this.camera = camera;
         this.entityBuilder = entityBuilder;
         this.entities = new ArrayList<>();
     }
@@ -24,7 +26,7 @@ public abstract class Scene {
     public void draw(double delta) {
         this.entities.forEach(entity -> {
             entity.update(delta);
-            entity.draw();
+            entity.draw(this.camera);
         });
     }
 }
