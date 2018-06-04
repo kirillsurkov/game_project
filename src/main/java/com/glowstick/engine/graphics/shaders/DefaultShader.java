@@ -16,7 +16,7 @@ public class DefaultShader extends Shader {
     @Override
     public void linkAttributes() {
         int posAttrib = this.getAttribLocation("position");
-        glVertexAttribPointer(posAttrib, 2, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(posAttrib, 3, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(posAttrib);
     }
 

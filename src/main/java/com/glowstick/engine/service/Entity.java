@@ -28,7 +28,7 @@ public abstract class Entity {
     }
 
     protected void addModel(String modelName, String shaderName) throws Exception {
-        this.models.add(new Pair<>(this.modelCache.get(modelName), shaderCache.get(shaderName)));
+        this.models.add(new Pair<>(this.modelCache.get(modelName), this.shaderCache.get(shaderName)));
     }
 
     public Entity scale(float scale) {
@@ -45,6 +45,11 @@ public abstract class Entity {
 
     public Entity move(float x, float y) {
         this.modelMatrix.translate(new Vector3f(x, y, 0));
+        return this;
+    }
+
+    public Entity rotate(float angle, Vector3f axis) {
+        this.modelMatrix.rotate(angle, axis);
         return this;
     }
 

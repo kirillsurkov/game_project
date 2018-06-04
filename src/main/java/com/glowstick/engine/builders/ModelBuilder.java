@@ -36,7 +36,7 @@ public class ModelBuilder implements Builder<Model> {
                     points.add(new Vector3f(
                             Float.valueOf(data[1]),
                             Float.valueOf(data[3]),
-                            0
+                            Float.valueOf(data[2])
                     ));
                 }
                 if ("f".equals(op)) {
@@ -49,10 +49,11 @@ public class ModelBuilder implements Builder<Model> {
                 }
             }
         });
-        float[] rawVertices = new float[vertices.size() * 2];
+        float[] rawVertices = new float[vertices.size() * 3];
         for (int i = 0; i < vertices.size(); i++) {
-            rawVertices[i*2] = vertices.get(i).getCoodrs().getX();
-            rawVertices[i*2+1] = vertices.get(i).getCoodrs().getY();
+            rawVertices[i*3] = vertices.get(i).getCoodrs().getX();
+            rawVertices[i*3+1] = vertices.get(i).getCoodrs().getY();
+            rawVertices[i*3+2] = vertices.get(i).getCoodrs().getZ();
         }
         return new Model(name, rawVertices, vertices.size());
     }

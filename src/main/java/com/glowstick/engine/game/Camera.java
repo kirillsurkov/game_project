@@ -6,12 +6,24 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.springframework.stereotype.Component;
 
 @Component
-@Getter
 public class Camera {
-    private Matrix4f projectionMatrix = new Matrix4f();
+    @Getter
+    private Matrix4f projectionMatrix;
+    @Getter
     private Matrix4f viewMatrix = new Matrix4f();
+    private Matrix4f matrix2D = new Matrix4f();
+    private Matrix4f matrix3D = new Matrix4f();
 
     public Camera() {
-        Utils.ortho2D(this.projectionMatrix, -1, 1, -1, 1, -1, 1);
+        Utils.ortho2D(this.matrix2D, -1, 1, -1, 1, -1, 1);
+        this.set2D();
+    }
+
+    public void set2D() {
+        this.projectionMatrix = this.matrix2D;
+    }
+
+    public void set3D() {
+        this.projectionMatrix = this.matrix3D;
     }
 }
