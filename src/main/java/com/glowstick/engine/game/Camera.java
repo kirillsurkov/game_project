@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.lwjgl.util.vector.Matrix4f;
 import org.springframework.stereotype.Component;
 
-@Component
 public class Camera {
     @Getter
     private Matrix4f projectionMatrix;

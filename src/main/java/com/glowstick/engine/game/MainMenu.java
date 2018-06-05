@@ -1,9 +1,7 @@
 package com.glowstick.engine.game;
 
-import com.glowstick.engine.caches.ShaderCache;
-import com.glowstick.engine.graphics.Model;
-import com.glowstick.engine.caches.ModelCache;
-import com.glowstick.engine.graphics.Shader;
+import com.glowstick.engine.builders.EntityBuilder;
+import com.glowstick.engine.service.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,21 +10,16 @@ import javax.annotation.PostConstruct;
 @Component
 public class MainMenu {
     @Autowired
-    private ShaderCache shaderCache;
+    private EntityBuilder entityBuilder;
 
-    @Autowired
-    private ModelCache modelCache;
-
-    private Model model;
-    private Shader shader;
+    private Entity dummyEntity;
 
     @PostConstruct
     private void init() throws Exception {
-        this.model = this.modelCache.get("dummy");
-        this.shader = this.shaderCache.get("default");
+        this.dummyEntity = this.entityBuilder.build("dummy");
     }
 
-    public void draw(Camera camera) {
-        this.model.draw(this.shader, camera, null);
+    public void draw() {
+        this.dummyEntity.draw(null);
     }
 }

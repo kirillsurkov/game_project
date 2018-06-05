@@ -13,9 +13,7 @@ public class Model extends Cacheable {
 
     public Model(String name, float[] vertices, int count) {
         super(name);
-
         this.count = count;
-
         this.vbo = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW);

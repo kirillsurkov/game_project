@@ -27,7 +27,10 @@ public class ShaderBuilder implements Builder<Shader> {
     @Override
     public Shader build(String name) throws Exception {
         if (this.buildersByName.containsKey(name)) {
-            return this.buildersByName.get(name).build();
+            Shader shader = this.buildersByName.get(name).build();
+            shader.use();
+            shader.linkAttributes();
+            return shader;
         } else {
             throw new Exception("Shader '" + name + "' not found");
         }

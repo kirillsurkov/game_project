@@ -11,8 +11,8 @@ public abstract class Scene {
     private EntityBuilder entityBuilder;
     private List<Entity> entities;
 
-    protected Scene(Camera camera, EntityBuilder entityBuilder) {
-        this.camera = camera;
+    protected Scene(EntityBuilder entityBuilder) {
+        this.camera = new Camera();
         this.entityBuilder = entityBuilder;
         this.entities = new ArrayList<>();
     }

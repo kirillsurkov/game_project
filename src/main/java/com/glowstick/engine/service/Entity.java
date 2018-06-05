@@ -54,9 +54,9 @@ public abstract class Entity {
     }
 
     public void draw(Camera camera) {
-        this.models.forEach(pair -> {
-            pair.getKey().draw(pair.getValue(), camera, this);
-        });
+        this.models.forEach(pair ->
+                pair.getKey().draw(pair.getValue(), camera, this)
+        );
     }
 
     abstract public void update(double delta);

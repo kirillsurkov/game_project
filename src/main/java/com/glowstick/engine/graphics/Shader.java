@@ -4,26 +4,36 @@ import com.glowstick.engine.game.Camera;
 import com.glowstick.engine.service.Cacheable;
 import com.glowstick.engine.service.Entity;
 
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 public abstract class Shader extends Cacheable {
     private final int program;
     private final int vao;
 
-    public Shader(String name, int program) {
+    public Shader(String name, int program, int vao) {
         super(name);
         this.program = program;
-        this.vao = glGenVertexArrays();
-        this.use();
-        this.linkAttributes();
+        this.vao = vao;
     }
 
-    abstract protected void linkAttributes();
+    protected void linkVertexAttributes() {
+        int posAttrib = this.getAttribLocation("position");
+        glVertexAttribPointer(posAttrib, 3, GL_FLOAT, false, 32, 0);
+        glEnableVertexAttribArray(posAttrib);
+        int normalAttrib = this.getAttribLocation("normal");
+        glVertexAttribPointer(normalAttrib, 3, GL_FLOAT, false, 32, 12);
+        glEnableVertexAttribArray(normalAttrib);
+        int texCoordAttrib = this.getAttribLocation("texCoord");
+        glVertexAttribPointer(texCoordAttrib, 2, GL_FLOAT, false, 32, 24);
+        glEnableVertexAttribArray(texCoordAttrib);
+    }
+
+    abstract public void linkAttributes();
     abstract protected void linkUniforms(Camera camera, Entity entity);
 
-    private void use() {
+    public void use() {
         glUseProgram(this.program);
         glBindVertexArray(this.vao);
     }
@@ -37,7 +47,7 @@ public abstract class Shader extends Cacheable {
     }
 
     public void bind(Camera camera, Entity entity) {
-        this.linkUniforms(camera, entity);
         this.use();
+        this.linkUniforms(camera, entity);
     }
 }

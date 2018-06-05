@@ -12,15 +12,13 @@ import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL20.*;
 
 public class AlternativeShader extends Shader {
-    public AlternativeShader(String name, int program) {
-        super(name, program);
+    public AlternativeShader(String name, int program, int vao) {
+        super(name, program, vao);
     }
 
     @Override
     public void linkAttributes() {
-        int posAttrib = this.getAttribLocation("position");
-        glVertexAttribPointer(posAttrib, 3, GL_FLOAT, false, 0, 0);
-        glEnableVertexAttribArray(posAttrib);
+        this.linkVertexAttributes();
     }
 
     @Override

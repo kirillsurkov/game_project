@@ -4,12 +4,10 @@ import com.glowstick.engine.game.Camera;
 import com.glowstick.engine.graphics.Shader;
 import com.glowstick.engine.service.Entity;
 
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL20.glUniform1i;
 
-public class DefaultShader extends Shader {
-    public DefaultShader(String name, int program, int vao) {
+public class FboShader extends Shader {
+    public FboShader(String name, int program, int vao) {
         super(name, program, vao);
     }
 
@@ -19,6 +17,7 @@ public class DefaultShader extends Shader {
     }
 
     @Override
-    public void linkUniforms(Camera camera, Entity entity) {
+    protected void linkUniforms(Camera camera, Entity entity) {
+        glUniform1i(this.getUniformLocation("fboTexture"), 0);
     }
 }

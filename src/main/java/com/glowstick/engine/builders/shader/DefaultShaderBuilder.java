@@ -10,7 +10,7 @@ public class DefaultShaderBuilder extends NamedShaderBuilder<DefaultShader> {
     private String name = "default";
 
     @Override
-    protected DefaultShader build(int program) {
-        return new DefaultShader(this.name, program);
+    protected DefaultShader build(int program, int vao) {
+        return new DefaultShader(this.name, program, vao);
     }
 }

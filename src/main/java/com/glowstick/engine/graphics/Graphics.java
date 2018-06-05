@@ -21,23 +21,32 @@ public class Graphics {
     @Setter
     private Consumer<Double> onDraw;
 
-    private double oldTime;
+    @Autowired
+    private Fbo fbo;
 
-    @PostConstruct
-    private void init() {
+    public Graphics() {
         GL.createCapabilities();
     }
 
+    @PostConstruct
+    private void init()  {
+        glDepthFunc(GL_LESS);
+        glEnable(GL_DEPTH_TEST);
+    }
+
     public void loop() {
-        this.oldTime = System.nanoTime() / 1000000000.0;
+        double oldTime = System.nanoTime() / 1000000000.0;
         glClearColor(0, 0, 0, 1);
+
         while (!glfwWindowShouldClose(this.window.getId())) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             double time = System.nanoTime() / 1000000000.0;
-            this.onDraw.accept(time - this.oldTime);
-            this.oldTime = time;
+            this.fbo.bind();
+            this.onDraw.accept(time - oldTime);
+            this.fbo.unbind();
+            this.fbo.draw();
             glfwSwapBuffers(this.window.getId());
             glfwPollEvents();
+            oldTime = time;
         }
     }
 

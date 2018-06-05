@@ -1,7 +1,7 @@
 package com.glowstick.engine.builders.shader;
 
-import com.glowstick.engine.builders.NamedBuilder;
 import com.glowstick.engine.graphics.Shader;
+import com.glowstick.engine.service.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -12,12 +12,13 @@ import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public abstract class NamedShaderBuilder<T extends Shader> implements NamedBuilder<T> {
+public abstract class NamedShaderBuilder<T extends Shader> implements Named {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    abstract protected T build(int program);
+    abstract protected T build(int program, int vao);
 
     private String loadSource(String shaderName, String fileName) throws IOException {
         Resource res = resourceLoader.getResource("classpath:shaders/" + shaderName + "/" + fileName);
@@ -26,7 +27,6 @@ public abstract class NamedShaderBuilder<T extends Shader> implements NamedBuild
         return String.join("\n", bufferedReader.lines().collect(Collectors.toList()));
     }
 
-    @Override
     public T build() throws IOException {
         String vShaderSrc = loadSource(this.getName(), "vertex.glsl");
         int vShader = glCreateShader(GL_VERTEX_SHADER);
@@ -43,6 +43,8 @@ public abstract class NamedShaderBuilder<T extends Shader> implements NamedBuild
         glAttachShader(program, fShader);
         glLinkProgram(program);
 
-        return this.build(program);
+        int vao = glGenVertexArrays();
+
+        return this.build(program, vao);
     }
 }
