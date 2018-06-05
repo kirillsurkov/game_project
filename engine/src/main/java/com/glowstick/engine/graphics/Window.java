@@ -17,21 +17,14 @@ public class Window {
     @Getter
     private long id;
 
-    @Autowired
-    private InputListener inputListener;
+    private final InputListener inputListener;
 
-    public Window(String title, int width, int height) {
+    public Window(String title, int width, int height, InputListener inputListener) throws Exception {
         this.title = title;
         this.width = width;
         this.height = height;
-    }
+        this.inputListener = inputListener;
 
-    public void close() {
-        glfwSetWindowShouldClose(this.id, true);
-    }
-
-    @PostConstruct
-    private void init() throws Exception {
         if (!glfwInit()) throw new Exception("GLFW init failed");
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -46,6 +39,10 @@ public class Window {
         glfwSetKeyCallback(this.id, inputListener::onKeyboard);
         glfwSetMouseButtonCallback(this.id, inputListener::onMouse);
         glfwSetCursorPosCallback(this.id, inputListener::onCursor);
+    }
+
+    public void close() {
+        glfwSetWindowShouldClose(this.id, true);
     }
 
     @PreDestroy
