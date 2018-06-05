@@ -1,19 +1,22 @@
 package com.glowstick.engine.graphics;
 
 import com.glowstick.engine.game.Camera;
-import com.glowstick.engine.service.Cacheable;
-import com.glowstick.engine.service.Entity;
+import com.glowstick.engine.extension.Cacheable;
+import com.glowstick.engine.game.Entity;
+import lombok.Getter;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public abstract class Shader extends Cacheable {
+public abstract class Shader implements Cacheable {
+    @Getter
+    private final String name;
     private final int program;
     private final int vao;
 
     public Shader(String name, int program, int vao) {
-        super(name);
+        this.name = name;
         this.program = program;
         this.vao = vao;
     }

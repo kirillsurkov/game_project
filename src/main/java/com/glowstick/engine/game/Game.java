@@ -3,8 +3,8 @@ package com.glowstick.engine.game;
 import com.glowstick.engine.builders.EntityBuilder;
 import com.glowstick.engine.game.scenes.Scene01;
 import com.glowstick.engine.graphics.Graphics;
-import com.glowstick.engine.service.Window;
-import com.glowstick.engine.service.InputListener;
+import com.glowstick.engine.graphics.Window;
+import com.glowstick.engine.InputListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

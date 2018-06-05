@@ -1,6 +1,7 @@
-package com.glowstick.engine.service;
+package com.glowstick.engine.caches;
 
 import com.glowstick.engine.builders.Builder;
+import com.glowstick.engine.extension.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;

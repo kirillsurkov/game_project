@@ -2,7 +2,7 @@ package com.glowstick.engine.graphics.shaders;
 
 import com.glowstick.engine.game.Camera;
 import com.glowstick.engine.graphics.Shader;
-import com.glowstick.engine.service.Entity;
+import com.glowstick.engine.game.Entity;
 
 import static org.lwjgl.opengl.GL20.glUniform1i;
 

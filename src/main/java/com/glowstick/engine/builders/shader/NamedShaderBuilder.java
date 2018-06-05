@@ -1,7 +1,7 @@
 package com.glowstick.engine.builders.shader;
 
 import com.glowstick.engine.graphics.Shader;
-import com.glowstick.engine.service.Named;
+import com.glowstick.engine.extension.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

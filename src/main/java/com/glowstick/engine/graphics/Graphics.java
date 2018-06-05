@@ -1,6 +1,5 @@
 package com.glowstick.engine.graphics;
 
-import com.glowstick.engine.service.Window;
 import lombok.Setter;
 import org.lwjgl.opengl.GL;
 import org.springframework.beans.factory.annotation.Autowired;

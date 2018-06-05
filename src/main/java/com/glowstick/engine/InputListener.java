@@ -1,4 +1,4 @@
-package com.glowstick.engine.service;
+package com.glowstick.engine;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;

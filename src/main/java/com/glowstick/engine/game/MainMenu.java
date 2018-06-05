@@ -1,7 +1,6 @@
 package com.glowstick.engine.game;
 
 import com.glowstick.engine.builders.EntityBuilder;
-import com.glowstick.engine.service.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

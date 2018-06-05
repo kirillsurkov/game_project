@@ -1,4 +1,4 @@
-package com.glowstick.engine.service;
+package com.glowstick.engine;
 
 import org.lwjgl.util.vector.Matrix4f;
 

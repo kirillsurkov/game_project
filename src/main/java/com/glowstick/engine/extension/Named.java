@@ -1,4 +1,4 @@
-package com.glowstick.engine.service;
+package com.glowstick.engine.extension;
 
 public interface Named {
     String getName();

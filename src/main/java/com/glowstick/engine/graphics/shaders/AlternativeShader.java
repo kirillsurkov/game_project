@@ -2,13 +2,12 @@ package com.glowstick.engine.graphics.shaders;
 
 import com.glowstick.engine.game.Camera;
 import com.glowstick.engine.graphics.Shader;
-import com.glowstick.engine.service.Entity;
+import com.glowstick.engine.game.Entity;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.nio.FloatBuffer;
 
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL20.*;
 
 public class AlternativeShader extends Shader {

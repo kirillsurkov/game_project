@@ -1,8 +1,7 @@
-package com.glowstick.engine.service;
+package com.glowstick.engine.game;
 
 import com.glowstick.engine.caches.ModelCache;
 import com.glowstick.engine.caches.ShaderCache;
-import com.glowstick.engine.game.Camera;
 import com.glowstick.engine.graphics.Model;
 import com.glowstick.engine.graphics.Shader;
 import javafx.util.Pair;
