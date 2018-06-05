@@ -24,7 +24,7 @@ public class Game {
     private InputListener inputListener;
     @Autowired
     private EntityBuilder entityBuilder;
-    @Autowired
+//    @Autowired
     private MainMenu mainMenu;
     private Scene scene;
     private boolean paused = true;
@@ -40,7 +40,7 @@ public class Game {
         if (this.inputListener.isKeyDown(GLFW_KEY_Q)) window.close();
         if (this.inputListener.isKeyPressed(GLFW_KEY_ESCAPE)) this.paused = !this.paused;
         if (this.paused) {
-            this.mainMenu.draw();
+//            this.mainMenu.draw();
         } else {
             this.scene.draw(delta);
         }
