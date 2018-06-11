@@ -1,7 +1,6 @@
 package com.glowstick.engine.graphics;
 
 import com.glowstick.engine.game.InputListener;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -14,16 +13,15 @@ public class Window {
     private String title;
     private int width;
     private int height;
-    @Getter
     private long id;
 
-    private final InputListener inputListener;
+    @Autowired
+    private InputListener inputListener;
 
-    public Window(String title, int width, int height, InputListener inputListener) throws Exception {
+    public Window(String title, int width, int height) throws Exception {
         this.title = title;
         this.width = width;
         this.height = height;
-        this.inputListener = inputListener;
 
         if (!glfwInit()) throw new Exception("GLFW init failed");
         glfwDefaultWindowHints();
@@ -36,13 +34,25 @@ public class Window {
         glfwSwapInterval(1);
         glfwShowWindow(this.id);
         createCapabilities();
-        glfwSetKeyCallback(this.id, inputListener::onKeyboard);
-        glfwSetMouseButtonCallback(this.id, inputListener::onMouse);
-        glfwSetCursorPosCallback(this.id, inputListener::onCursor);
+    }
+
+    @PostConstruct
+    private void init() {
+        glfwSetKeyCallback(this.id, this.inputListener::onKeyboard);
+        glfwSetMouseButtonCallback(this.id, this.inputListener::onMouse);
+        glfwSetCursorPosCallback(this.id, this.inputListener::onCursor);
     }
 
     public void close() {
         glfwSetWindowShouldClose(this.id, true);
+    }
+
+    public void swapBuffers() {
+        glfwSwapBuffers(this.id);
+    }
+
+    public boolean isAlive() {
+        return !glfwWindowShouldClose(this.id);
     }
 
     @PreDestroy

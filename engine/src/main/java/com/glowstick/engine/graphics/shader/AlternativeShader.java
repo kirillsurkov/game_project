@@ -1,4 +1,4 @@
-package com.glowstick.engine.graphics.shaders;
+package com.glowstick.engine.graphics.shader;
 
 import com.glowstick.engine.game.Camera;
 import com.glowstick.engine.graphics.Shader;

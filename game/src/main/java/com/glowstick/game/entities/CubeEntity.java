@@ -1,7 +1,7 @@
 package com.glowstick.game.entities;
 
-import com.glowstick.engine.caches.ModelCache;
-import com.glowstick.engine.caches.ShaderCache;
+import com.glowstick.engine.cache.ModelCache;
+import com.glowstick.engine.cache.ShaderCache;
 import com.glowstick.engine.game.Entity;
 import org.lwjgl.util.vector.Vector3f;
 

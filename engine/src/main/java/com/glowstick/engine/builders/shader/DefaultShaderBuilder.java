@@ -1,6 +1,7 @@
 package com.glowstick.engine.builders.shader;
 
-import com.glowstick.engine.graphics.shaders.DefaultShader;
+import com.glowstick.engine.builders.NamedShaderBuilder;
+import com.glowstick.engine.graphics.shader.DefaultShader;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 

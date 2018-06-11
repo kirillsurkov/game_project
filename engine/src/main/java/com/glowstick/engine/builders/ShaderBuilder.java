@@ -1,7 +1,6 @@
 package com.glowstick.engine.builders;
 
 import com.glowstick.engine.graphics.Shader;
-import com.glowstick.engine.builders.shader.NamedShaderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.glowstick.engine.caches;
+package com.glowstick.engine.cache;
 
 import com.glowstick.engine.builders.Builder;
 import com.glowstick.engine.extension.Cacheable;

@@ -1,9 +1,9 @@
-package com.glowstick.game.entities.builders;
+package com.glowstick.engine.builders.entity;
 
-import com.glowstick.engine.builders.entity.NamedEntityBuilder;
-import com.glowstick.engine.caches.ModelCache;
-import com.glowstick.engine.caches.ShaderCache;
-import com.glowstick.game.entities.DummyEntity;
+import com.glowstick.engine.builders.NamedEntityBuilder;
+import com.glowstick.engine.cache.ModelCache;
+import com.glowstick.engine.cache.ShaderCache;
+import com.glowstick.engine.game.entity.DummyEntity;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 

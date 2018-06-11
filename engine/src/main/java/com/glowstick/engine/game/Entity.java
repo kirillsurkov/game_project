@@ -2,8 +2,8 @@ package com.glowstick.engine.game;
 
 import com.glowstick.engine.graphics.Model;
 import com.glowstick.engine.graphics.Shader;
-import com.glowstick.engine.caches.ModelCache;
-import com.glowstick.engine.caches.ShaderCache;
+import com.glowstick.engine.cache.ModelCache;
+import com.glowstick.engine.cache.ShaderCache;
 import javafx.util.Pair;
 import lombok.Getter;
 import org.lwjgl.util.vector.Matrix4f;

@@ -1,4 +1,4 @@
-package com.glowstick.engine.builders.shader;
+package com.glowstick.engine.builders;
 
 import com.glowstick.engine.extension.Named;
 import com.glowstick.engine.graphics.Shader;

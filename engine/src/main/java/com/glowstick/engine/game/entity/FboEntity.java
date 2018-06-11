@@ -1,7 +1,7 @@
-package com.glowstick.game.entities;
+package com.glowstick.engine.game.entity;
 
-import com.glowstick.engine.caches.ModelCache;
-import com.glowstick.engine.caches.ShaderCache;
+import com.glowstick.engine.cache.ModelCache;
+import com.glowstick.engine.cache.ShaderCache;
 import com.glowstick.engine.game.Entity;
 
 public class FboEntity extends Entity {
