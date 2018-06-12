@@ -18,7 +18,7 @@ public abstract class Game {
     protected InputListener inputListener;
 
     abstract protected void init() throws Exception;
-    abstract public void update(double delta);
+    abstract public void draw(double delta);
 
     @PostConstruct
     private void innerInit() throws Exception {

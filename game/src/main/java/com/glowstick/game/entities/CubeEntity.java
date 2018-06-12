@@ -10,7 +10,8 @@ public class CubeEntity extends Entity {
 
     public CubeEntity(ModelCache modelCache, ShaderCache shaderCache) throws Exception {
         super(modelCache, shaderCache);
-        this.addModel("cube", "alternative");
+        this.addModel("dummy", "geometrypass");
+        this.rotate((float)Math.PI / 2.0f, new Vector3f(0, 0, 1));
     }
 
     @Override

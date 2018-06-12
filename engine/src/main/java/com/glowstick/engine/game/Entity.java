@@ -42,8 +42,8 @@ public abstract class Entity {
         return this;
     }
 
-    public Entity move(float x, float y) {
-        this.modelMatrix.translate(new Vector3f(x, y, 0));
+    public Entity move(float x, float y, float z) {
+        this.modelMatrix.translate(new Vector3f(x, y, z));
         return this;
     }
 

@@ -20,8 +20,8 @@ public class Game extends com.glowstick.engine.game.Game {
     }
 
     @Override
-    public void update(double delta) {
-        if (this.inputListener.isKeyDown(GLFW_KEY_Q)) window.close();
+    public void draw(double delta) {
+        if (this.inputListener.isKeyDown(GLFW_KEY_Q)) this.window.close();
         if (this.inputListener.isKeyPressed(GLFW_KEY_ESCAPE)) this.paused = !this.paused;
         if (this.paused) {
             this.mainMenu.draw();

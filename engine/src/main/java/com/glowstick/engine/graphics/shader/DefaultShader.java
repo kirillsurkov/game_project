@@ -17,6 +17,6 @@ public class DefaultShader extends Shader {
     }
 
     @Override
-    public void linkUniforms(Camera camera, Entity entity) {
+    protected void linkUniforms(Camera camera, Entity entity) {
     }
 }

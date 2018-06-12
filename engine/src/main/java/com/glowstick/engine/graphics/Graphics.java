@@ -22,7 +22,6 @@ public class Graphics {
     @PostConstruct
     private void init()  {
         glDepthFunc(GL_LESS);
-        glEnable(GL_DEPTH_TEST);
     }
 
     public void loop() {
@@ -32,8 +31,12 @@ public class Graphics {
         while (this.window.isAlive()) {
             double time = System.nanoTime() / 1000000000.0;
             this.fbo.bind();
-            this.game.update(time - oldTime);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glEnable(GL_DEPTH_TEST);
+            this.game.draw(time - oldTime);
             this.fbo.unbind();
+            glClear(GL_COLOR_BUFFER_BIT);
+            glDisable(GL_DEPTH_TEST);
             this.fbo.draw();
             this.window.swapBuffers();
             glfwPollEvents();

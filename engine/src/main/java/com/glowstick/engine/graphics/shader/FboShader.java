@@ -18,6 +18,9 @@ public class FboShader extends Shader {
 
     @Override
     protected void linkUniforms(Camera camera, Entity entity) {
-        glUniform1i(this.getUniformLocation("fboTexture"), 0);
+        glUniform1i(this.getUniformLocation("colorTexture"), 0);
+        glUniform1i(this.getUniformLocation("positionTexture"), 1);
+        glUniform1i(this.getUniformLocation("normalTexture"), 2);
+        glUniform1i(this.getUniformLocation("depthTexture"), 3);
     }
 }
