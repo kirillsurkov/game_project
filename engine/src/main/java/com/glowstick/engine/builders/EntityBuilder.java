@@ -2,6 +2,7 @@ package com.glowstick.engine.builders;
 
 import com.glowstick.engine.cache.ModelCache;
 import com.glowstick.engine.cache.ShaderCache;
+import com.glowstick.engine.cache.TextureCache;
 import com.glowstick.engine.game.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,10 +15,13 @@ import java.util.Map;
 @Component
 public class EntityBuilder implements Builder<Entity> {
     @Autowired
-    protected ModelCache modelCache;
+    private ModelCache modelCache;
 
     @Autowired
-    protected ShaderCache shaderCache;
+    private ShaderCache shaderCache;
+
+    @Autowired
+    private TextureCache textureCache;
 
     @Autowired
     private List<? extends NamedEntityBuilder> builders;
@@ -34,7 +38,7 @@ public class EntityBuilder implements Builder<Entity> {
     @Override
     public Entity build(String name) throws Exception {
         if (this.buildersByName.containsKey(name)) {
-            return this.buildersByName.get(name).build(this.modelCache, this.shaderCache);
+            return this.buildersByName.get(name).build(this.modelCache, this.shaderCache, this.textureCache);
         } else {
             throw new Exception("Entity '" + name + "' not found");
         }

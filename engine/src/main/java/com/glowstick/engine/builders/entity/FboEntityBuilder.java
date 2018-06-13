@@ -4,6 +4,7 @@ import com.glowstick.engine.builders.NamedEntityBuilder;
 import com.glowstick.engine.builders.TextureBuilder;
 import com.glowstick.engine.cache.ModelCache;
 import com.glowstick.engine.cache.ShaderCache;
+import com.glowstick.engine.cache.TextureCache;
 import com.glowstick.engine.game.entity.FboEntity;
 import com.glowstick.engine.graphics.Texture;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class FboEntityBuilder extends NamedEntityBuilder<FboEntity> {
     private TextureBuilder textureBuilder;
 
     @Override
-    public FboEntity build(ModelCache modelCache, ShaderCache shaderCache) throws Exception {
+    public FboEntity build(ModelCache modelCache, ShaderCache shaderCache, TextureCache textureCache) throws Exception {
         int frameBuffer = glGenFramebuffers();
         glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
@@ -45,6 +46,6 @@ public class FboEntityBuilder extends NamedEntityBuilder<FboEntity> {
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        return new FboEntity(modelCache, shaderCache, frameBuffer, depthTexture, positionTexture, normalTexture, colorTexture);
+        return new FboEntity(modelCache, shaderCache, textureCache, frameBuffer, depthTexture, positionTexture, normalTexture, colorTexture);
     }
 }

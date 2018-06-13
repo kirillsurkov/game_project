@@ -1,10 +1,12 @@
 package com.glowstick.engine.game;
 
+import com.glowstick.engine.cache.TextureCache;
 import com.glowstick.engine.game.camera.Camera;
 import com.glowstick.engine.graphics.Model;
 import com.glowstick.engine.graphics.Shader;
 import com.glowstick.engine.cache.ModelCache;
 import com.glowstick.engine.cache.ShaderCache;
+import com.glowstick.engine.graphics.Texture;
 import javafx.util.Pair;
 import lombok.Getter;
 import org.lwjgl.util.vector.Matrix4f;
@@ -20,11 +22,16 @@ public abstract class Entity {
     @Getter
     private Matrix4f modelMatrix = new Matrix4f();
     @Getter
-    private Vector3f color = new Vector3f();
+    private Texture texture;
 
-    public Entity(ModelCache modelCache, ShaderCache shaderCache) {
+    public Entity(ModelCache modelCache, ShaderCache shaderCache, TextureCache textureCache) {
         this.modelCache = modelCache;
         this.shaderCache = shaderCache;
+        try {
+            this.texture = textureCache.get("default");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void addModel(String modelName, String shaderName) throws Exception {
@@ -33,13 +40,6 @@ public abstract class Entity {
 
     public Entity scale(float scale) {
         this.modelMatrix.scale(new Vector3f(scale, scale, scale));
-        return this;
-    }
-
-    public Entity color(float r, float g, float b) {
-        this.color.x = r;
-        this.color.y = g;
-        this.color.z = b;
         return this;
     }
 

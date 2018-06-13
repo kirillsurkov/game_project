@@ -14,7 +14,7 @@ public class Camera3D implements Camera {
     private Matrix4f viewMatrix = new Matrix4f();
     @Getter
     private Vector3f position = new Vector3f(0, 0, 0);
-    private Vector3f target = new Vector3f(0, 0, 1);
+    private Vector3f target = new Vector3f(0, 0, -1);
     private Vector3f upDir = new Vector3f(0, 1, 0);
 
     public Camera3D() {

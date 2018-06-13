@@ -1,6 +1,6 @@
 #version 330 core
 
-uniform vec3 uColor;
+uniform sampler2D uTexture;
 
 layout (location = 0) out vec4 gColor;
 layout (location = 1) out vec3 gPosition;
@@ -12,7 +12,7 @@ in vec2 fTexCoord;
 
 void main()
 {
-    gColor = vec4(uColor + vec3(fTexCoord, 0), 1.0);
+    gColor = vec4(texture2D(uTexture, fTexCoord).rgb, 1);
     gPosition = fPosition;
     gNormal = normalize(fNormal);
 }

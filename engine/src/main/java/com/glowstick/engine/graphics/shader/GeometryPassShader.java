@@ -3,11 +3,15 @@ package com.glowstick.engine.graphics.shader;
 import com.glowstick.engine.game.camera.Camera;
 import com.glowstick.engine.game.Entity;
 import com.glowstick.engine.graphics.Shader;
+import com.glowstick.engine.graphics.Texture;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.nio.FloatBuffer;
 
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.opengl.GL20.glUniform1i;
 import static org.lwjgl.opengl.GL20.glUniform3f;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
@@ -31,18 +35,6 @@ public class GeometryPassShader extends Shader {
         Matrix4f.transpose(normal, normal);
         Matrix4f MVP = Matrix4f.mul(projection, modelView, new Matrix4f());
 
-        FloatBuffer modelFloatBuffer = FloatBuffer.allocate(16);
-        model.store(modelFloatBuffer);
-        glUniformMatrix4fv(this.getUniformLocation("uModel"), false, modelFloatBuffer.array());
-
-        FloatBuffer viewFloatBuffer = FloatBuffer.allocate(16);
-        view.store(viewFloatBuffer);
-        glUniformMatrix4fv(this.getUniformLocation("uView"), false, viewFloatBuffer.array());
-
-        FloatBuffer projectionFloatBuffer = FloatBuffer.allocate(16);
-        projection.store(projectionFloatBuffer);
-        glUniformMatrix4fv(this.getUniformLocation("uProjection"), false, projectionFloatBuffer.array());
-
         FloatBuffer modelViewFloatBuffer = FloatBuffer.allocate(16);
         modelView.store(modelViewFloatBuffer);
         glUniformMatrix4fv(this.getUniformLocation("uModelView"), false, modelViewFloatBuffer.array());
@@ -55,7 +47,8 @@ public class GeometryPassShader extends Shader {
         MVP.store(MVPFloatBuffer);
         glUniformMatrix4fv(this.getUniformLocation("uMVP"), false, MVPFloatBuffer.array());
 
-        Vector3f color = entity.getColor();
-        glUniform3f(this.getUniformLocation("uColor"), color.x, color.y, color.z);
+        glActiveTexture(GL_TEXTURE0);
+        entity.getTexture().bind();
+        glUniform1i(this.getUniformLocation("uTexture"), 0);
     }
 }

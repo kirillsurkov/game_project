@@ -35,8 +35,5 @@ public class AlternativeShader extends Shader {
         FloatBuffer floatBuffer = FloatBuffer.allocate(16);
         MVP.store(floatBuffer);
         glUniformMatrix4fv(this.getUniformLocation("uMVP"), false, floatBuffer.array());
-
-        Vector3f color = entity.getColor();
-        glUniform3f(this.getUniformLocation("uColor"), color.x, color.y, color.z);
     }
 }

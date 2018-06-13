@@ -1,8 +1,7 @@
 package com.glowstick.engine.builders;
 
+import ar.com.hjg.pngj.*;
 import com.glowstick.engine.graphics.Texture;
-import org.apache.commons.io.IOUtils;
-import org.lwjgl.system.MemoryStack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -10,13 +9,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_DEPTH_COMPONENT32F;
 import static org.lwjgl.opengl.GL30.GL_RGB16F;
-import static org.lwjgl.stb.STBImage.stbi_load_from_memory;
-import static org.lwjgl.stb.STBImage.stbi_set_flip_vertically_on_load;
 
 @Component
 public class TextureBuilder implements Builder<Texture> {
@@ -31,6 +27,7 @@ public class TextureBuilder implements Builder<Texture> {
         } else {
             glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, pixels);
         }
+        System.out.println(glGetError());
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         return new Texture(name, texture);
@@ -46,19 +43,18 @@ public class TextureBuilder implements Builder<Texture> {
 
     @Override
     public Texture build(String name) throws Exception {
-        Resource resource = this.resourceLoader.getResource(name);
+        Resource resource = this.resourceLoader.getResource("classpath:textures/" + name + "/texture.png");
         InputStream inputStream = resource.getInputStream();
-        ByteBuffer data = ByteBuffer.wrap(IOUtils.toByteArray(inputStream));
-        ByteBuffer pixels;
-        int width, height;
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer w = stack.mallocInt(1);
-            IntBuffer h = stack.mallocInt(1);
-            IntBuffer comp = stack.mallocInt(1);
-            pixels = stbi_load_from_memory(data, w, h, comp, 4);
-            width = w.get();
-            height = h.get();
+        PngReaderByte reader = new PngReaderByte(inputStream);
+        int width = reader.imgInfo.cols;
+        int height = reader.imgInfo.rows;
+        int channels = reader.imgInfo.channels;
+        ByteBuffer pixels = ByteBuffer.allocateDirect(width * height * channels);
+        while (reader.hasMoreRows()) {
+            byte[] line = reader.readRowByte().getScanline();
+            pixels.put(line);
         }
+        pixels.position(0);
         return this.build(name, width, height, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
     }
 }
