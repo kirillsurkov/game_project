@@ -8,7 +8,7 @@ import com.glowstick.engine.game.Entity;
 public class DummyEntity extends Entity {
     public DummyEntity(ModelCache modelCache, ShaderCache shaderCache, TextureCache textureCache) throws Exception {
         super(modelCache, shaderCache, textureCache);
-        this.addModel("dummy", "default");
+        this.addModel("dummy", "geometrypass");
     }
 
     @Override

@@ -37,7 +37,7 @@ public class Game extends com.glowstick.engine.game.Game {
         if (this.inputListener.isKeyDown(GLFW_KEY_Q)) this.window.close();
         if (this.inputListener.isKeyPressed(GLFW_KEY_ESCAPE)) this.paused = !this.paused;
         if (this.paused) {
-            this.mainMenu.draw();
+//            this.mainMenu.draw();
         } else {
             this.scene.draw(delta);
         }
