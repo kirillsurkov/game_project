@@ -29,13 +29,13 @@ public class Fbo {
 
     public void draw(Camera camera) {
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, this.fboEntity.getColorTexture());
+        this.fboEntity.getColorTexture().bind();
         glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, this.fboEntity.getPositionTexture());
+        this.fboEntity.getPositionTexture().bind();
         glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, this.fboEntity.getNormalTexture());
+        this.fboEntity.getNormalTexture().bind();
         glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, this.fboEntity.getDepthTexture());
+        this.fboEntity.getDepthTexture().bind();
         this.fboEntity.draw(camera);
     }
 }

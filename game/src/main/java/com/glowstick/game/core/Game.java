@@ -16,6 +16,8 @@ public class Game extends com.glowstick.engine.game.Game {
     private MainMenu mainMenu;
     private Scene scene;
     private boolean paused = true;
+    private float timer = 0;
+    private int frames = 0;
 
     @Override
     protected void init() throws Exception {
@@ -25,6 +27,13 @@ public class Game extends com.glowstick.engine.game.Game {
 
     @Override
     public void draw(double delta) {
+        this.timer += delta;
+        this.frames++;
+        if (this.timer >= 1) {
+            System.out.println("FPS: " + (frames / timer));
+            this.timer = 0;
+            this.frames = 0;
+        }
         if (this.inputListener.isKeyDown(GLFW_KEY_Q)) this.window.close();
         if (this.inputListener.isKeyPressed(GLFW_KEY_ESCAPE)) this.paused = !this.paused;
         if (this.paused) {

@@ -3,21 +3,18 @@ package com.glowstick.engine.game.entity;
 import com.glowstick.engine.cache.ModelCache;
 import com.glowstick.engine.cache.ShaderCache;
 import com.glowstick.engine.game.Entity;
+import com.glowstick.engine.graphics.Texture;
 import lombok.Getter;
 
+@Getter
 public class FboEntity extends Entity {
-    @Getter
     private final int frameBuffer;
-    @Getter
-    private final int depthTexture;
-    @Getter
-    private final int positionTexture;
-    @Getter
-    private final int normalTexture;
-    @Getter
-    private final int colorTexture;
+    private final Texture depthTexture;
+    private final Texture positionTexture;
+    private final Texture normalTexture;
+    private final Texture colorTexture;
 
-    public FboEntity(ModelCache modelCache, ShaderCache shaderCache, int frameBuffer, int depthTexture, int positionTexture, int normalTexture, int colorTexture) throws Exception {
+    public FboEntity(ModelCache modelCache, ShaderCache shaderCache, int frameBuffer, Texture depthTexture, Texture positionTexture, Texture normalTexture, Texture colorTexture) throws Exception {
         super(modelCache, shaderCache);
         this.addModel("plane", "fbo");
         this.frameBuffer = frameBuffer;

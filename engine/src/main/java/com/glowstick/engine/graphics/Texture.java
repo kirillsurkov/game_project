@@ -5,17 +5,14 @@ import lombok.Getter;
 
 import static org.lwjgl.opengl.GL11.*;
 
+@Getter
 public class Texture implements Cacheable {
-    @Getter
     private String name;
     private int id;
 
-    public Texture(String name) {
+    public Texture(String name, int id) {
         this.name = name;
-        this.id = glGenTextures();
-        this.bind();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        this.id = id;
     }
 
     public void bind() {

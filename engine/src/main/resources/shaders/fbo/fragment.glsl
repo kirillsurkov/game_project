@@ -18,5 +18,7 @@ void main()
     vec3 lightDir = normalize(lightPos - fragPos);
     float diffuse = max(dot(normal, lightDir), 0.0);
 
-    outColor = diffuse * texture(colorTexture, uv);//*vec4(fragPos*10, 1);// * vec4(texture(colorTexture, uv).rgb * (0.5 + texture(depthTexture, uv).rgb * 0.5), 1);
+    float ambient = 0.1;
+
+    outColor = (ambient + diffuse * (1 - ambient)) * texture(colorTexture, uv);//*vec4(fragPos*10, 1);// * vec4(texture(colorTexture, uv).rgb * (0.5 + texture(depthTexture, uv).rgb * 0.5), 1);
 }
