@@ -1,20 +1,19 @@
 package com.glowstick.engine.game;
 
 import com.glowstick.engine.builders.EntityBuilder;
-import com.glowstick.engine.game.Camera;
-import com.glowstick.engine.game.Entity;
+import com.glowstick.engine.game.camera.Camera;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Scene {
-    private Camera camera;
     private EntityBuilder entityBuilder;
+    private Camera camera;
     private List<Entity> entities;
 
-    protected Scene(EntityBuilder entityBuilder) {
-        this.camera = new Camera();
+    protected Scene(EntityBuilder entityBuilder, Camera camera) {
         this.entityBuilder = entityBuilder;
+        this.camera = camera;
         this.entities = new ArrayList<>();
     }
 

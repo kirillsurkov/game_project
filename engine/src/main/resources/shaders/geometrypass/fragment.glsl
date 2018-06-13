@@ -12,7 +12,7 @@ in vec2 fTexCoord;
 
 void main()
 {
-    gPosition = fPosition;
-    gNormal = fNormal;
     gColor = vec4(uColor + vec3(fTexCoord, 0), 1.0);
+    gPosition = fPosition;
+    gNormal = normalize(fNormal);
 }

@@ -1,5 +1,11 @@
 #version 330 core
 
+uniform mat4 uModel;
+uniform mat4 uView;
+uniform mat4 uProjection;
+uniform mat4 uModelView;
+uniform mat4 uModelInverse;
+uniform mat4 uNormal;
 uniform mat4 uMVP;
 
 in vec3 position;
@@ -12,8 +18,8 @@ out vec2 fTexCoord;
 
 void main()
 {
-    fPosition = (uMVP * vec4(position, 1.0)).xyz;
-    fNormal = (uMVP * vec4(normal, 1.0)).xyz;
+    fPosition = (uModelView * vec4(position, 1)).xyz;
+    fNormal = (uNormal * vec4(normal, 1)).xyz;
     fTexCoord = texCoord;
-    gl_Position = uMVP * vec4(position, 1.0);
+    gl_Position = uMVP * vec4(position, 1);
 }

@@ -1,6 +1,7 @@
 package com.glowstick.engine.graphics;
 
 import com.glowstick.engine.game.Game;
+import com.glowstick.engine.game.camera.Camera3D;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,8 @@ public class Graphics {
     private Window window;
     @Autowired
     private Game game;
+    @Autowired
+    private Camera3D camera;
 
     @Autowired
     private Fbo fbo;
@@ -37,7 +40,7 @@ public class Graphics {
             this.fbo.unbind();
             glClear(GL_COLOR_BUFFER_BIT);
             glDisable(GL_DEPTH_TEST);
-            this.fbo.draw();
+            this.fbo.draw(this.camera);
             this.window.swapBuffers();
             glfwPollEvents();
             oldTime = time;

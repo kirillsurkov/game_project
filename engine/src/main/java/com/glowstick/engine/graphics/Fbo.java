@@ -1,6 +1,7 @@
 package com.glowstick.engine.graphics;
 
 import com.glowstick.engine.builders.EntityBuilder;
+import com.glowstick.engine.game.camera.Camera;
 import com.glowstick.engine.game.entity.FboEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class Fbo {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    public void draw() {
+    public void draw(Camera camera) {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this.fboEntity.getColorTexture());
         glActiveTexture(GL_TEXTURE1);
@@ -35,6 +36,6 @@ public class Fbo {
         glBindTexture(GL_TEXTURE_2D, this.fboEntity.getNormalTexture());
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, this.fboEntity.getDepthTexture());
-        this.fboEntity.draw(null);
+        this.fboEntity.draw(camera);
     }
 }

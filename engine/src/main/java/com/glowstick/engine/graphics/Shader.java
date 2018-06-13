@@ -1,7 +1,7 @@
 package com.glowstick.engine.graphics;
 
 import com.glowstick.engine.extension.Cacheable;
-import com.glowstick.engine.game.Camera;
+import com.glowstick.engine.game.camera.Camera;
 import com.glowstick.engine.game.Entity;
 import lombok.Getter;
 

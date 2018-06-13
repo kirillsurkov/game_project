@@ -1,5 +1,6 @@
 package com.glowstick.engine.game;
 
+import com.glowstick.engine.game.camera.Camera;
 import com.glowstick.engine.graphics.Model;
 import com.glowstick.engine.graphics.Shader;
 import com.glowstick.engine.cache.ModelCache;

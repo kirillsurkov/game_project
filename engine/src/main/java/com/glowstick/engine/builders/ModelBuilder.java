@@ -34,8 +34,8 @@ public class ModelBuilder implements Builder<Model> {
                 if ("v".equals(op)) {
                     points.add(new Vector3f(
                             Float.valueOf(data[1]),
-                            Float.valueOf(data[3]),
-                            Float.valueOf(data[2])
+                            Float.valueOf(data[2]),
+                            Float.valueOf(data[3])
                     ));
                 }
                 if ("vn".equals(op)) {

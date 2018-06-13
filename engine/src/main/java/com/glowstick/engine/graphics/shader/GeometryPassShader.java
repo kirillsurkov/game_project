@@ -1,6 +1,6 @@
 package com.glowstick.engine.graphics.shader;
 
-import com.glowstick.engine.game.Camera;
+import com.glowstick.engine.game.camera.Camera;
 import com.glowstick.engine.game.Entity;
 import com.glowstick.engine.graphics.Shader;
 import org.lwjgl.util.vector.Matrix4f;
@@ -23,19 +23,37 @@ public class GeometryPassShader extends Shader {
 
     @Override
     protected void linkUniforms(Camera camera, Entity entity) {
-        Matrix4f MVP = new Matrix4f();
-        Matrix4f.mul(
-                camera.getProjectionMatrix(),
-                Matrix4f.mul(
-                        camera.getViewMatrix(),
-                        entity.getModelMatrix(),
-                        MVP
-                ),
-                MVP
-        );
-        FloatBuffer floatBuffer = FloatBuffer.allocate(16);
-        MVP.store(floatBuffer);
-        glUniformMatrix4fv(this.getUniformLocation("uMVP"), false, floatBuffer.array());
+        Matrix4f model = entity.getModelMatrix();
+        Matrix4f view = camera.getViewMatrix();
+        Matrix4f projection = camera.getProjectionMatrix();
+        Matrix4f modelView = Matrix4f.mul(view, model, new Matrix4f());
+        Matrix4f normal = Matrix4f.invert(modelView, new Matrix4f());
+        Matrix4f.transpose(normal, normal);
+        Matrix4f MVP = Matrix4f.mul(projection, modelView, new Matrix4f());
+
+        FloatBuffer modelFloatBuffer = FloatBuffer.allocate(16);
+        model.store(modelFloatBuffer);
+        glUniformMatrix4fv(this.getUniformLocation("uModel"), false, modelFloatBuffer.array());
+
+        FloatBuffer viewFloatBuffer = FloatBuffer.allocate(16);
+        view.store(viewFloatBuffer);
+        glUniformMatrix4fv(this.getUniformLocation("uView"), false, viewFloatBuffer.array());
+
+        FloatBuffer projectionFloatBuffer = FloatBuffer.allocate(16);
+        projection.store(projectionFloatBuffer);
+        glUniformMatrix4fv(this.getUniformLocation("uProjection"), false, projectionFloatBuffer.array());
+
+        FloatBuffer modelViewFloatBuffer = FloatBuffer.allocate(16);
+        modelView.store(modelViewFloatBuffer);
+        glUniformMatrix4fv(this.getUniformLocation("uModelView"), false, modelViewFloatBuffer.array());
+
+        FloatBuffer normalFloatBuffer = FloatBuffer.allocate(16);
+        normal.store(normalFloatBuffer);
+        glUniformMatrix4fv(this.getUniformLocation("uNormal"), false, normalFloatBuffer.array());
+
+        FloatBuffer MVPFloatBuffer = FloatBuffer.allocate(16);
+        MVP.store(MVPFloatBuffer);
+        glUniformMatrix4fv(this.getUniformLocation("uMVP"), false, MVPFloatBuffer.array());
 
         Vector3f color = entity.getColor();
         glUniform3f(this.getUniformLocation("uColor"), color.x, color.y, color.z);

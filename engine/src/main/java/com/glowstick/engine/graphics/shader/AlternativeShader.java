@@ -1,6 +1,6 @@
 package com.glowstick.engine.graphics.shader;
 
-import com.glowstick.engine.game.Camera;
+import com.glowstick.engine.game.camera.Camera;
 import com.glowstick.engine.graphics.Shader;
 import com.glowstick.engine.game.Entity;
 import org.lwjgl.util.vector.Matrix4f;
