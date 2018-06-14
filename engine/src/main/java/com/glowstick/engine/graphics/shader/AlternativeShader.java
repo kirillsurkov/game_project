@@ -11,13 +11,8 @@ import java.nio.FloatBuffer;
 import static org.lwjgl.opengl.GL20.*;
 
 public class AlternativeShader extends Shader {
-    public AlternativeShader(String name, int program, int vao) {
-        super(name, program, vao);
-    }
-
-    @Override
-    public void linkAttributes() {
-        this.linkVertexAttributes();
+    public AlternativeShader(String name, int program) {
+        super(name, program);
     }
 
     @Override

@@ -5,13 +5,8 @@ import com.glowstick.engine.graphics.Shader;
 import com.glowstick.engine.game.Entity;
 
 public class DefaultShader extends Shader {
-    public DefaultShader(String name, int program, int vao) {
-        super(name, program, vao);
-    }
-
-    @Override
-    public void linkAttributes() {
-        this.linkVertexAttributes();
+    public DefaultShader(String name, int program) {
+        super(name, program);
     }
 
     @Override

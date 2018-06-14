@@ -27,7 +27,6 @@ public class ShaderBuilder implements Builder<Shader> {
     public Shader build(String name) throws Exception {
         if (this.buildersByName.containsKey(name)) {
             Shader shader = this.buildersByName.get(name).build();
-            shader.use();
             shader.linkAttributes();
             return shader;
         } else {

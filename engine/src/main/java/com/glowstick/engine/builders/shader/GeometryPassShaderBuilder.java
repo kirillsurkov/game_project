@@ -11,7 +11,7 @@ public class GeometryPassShaderBuilder extends NamedShaderBuilder<GeometryPassSh
     private final String name = "geometrypass";
 
     @Override
-    protected GeometryPassShader build(int program, int vao) {
-        return new GeometryPassShader(this.name, program, vao);
+    protected GeometryPassShader build(int program) {
+        return new GeometryPassShader(this.name, program);
     }
 }

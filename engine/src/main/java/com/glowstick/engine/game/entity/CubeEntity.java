@@ -1,4 +1,4 @@
-package com.glowstick.game.entities;
+package com.glowstick.engine.game.entity;
 
 import com.glowstick.engine.cache.ModelCache;
 import com.glowstick.engine.cache.ShaderCache;
@@ -11,13 +11,13 @@ public class CubeEntity extends Entity {
 
     public CubeEntity(ModelCache modelCache, ShaderCache shaderCache, TextureCache textureCache) throws Exception {
         super(modelCache, shaderCache, textureCache);
-        this.addModel("dummy", "geometrypass");
+        this.addModel("cube", "geometrypass");
     }
 
     @Override
     public void update(double delta) {
         this.time += delta;
-        this.rotate((float)delta, new Vector3f(0, 1, 0));
+        this.rotate((float)(delta / 5.0), new Vector3f(0, 1, 0));
 //        this.move((float)Math.cos(this.time * 10) / 10.0f, (float)Math.sin(this.time * 10) / 10.0f);
     }
 }

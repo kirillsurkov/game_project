@@ -14,6 +14,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+
 @Component
 public class ModelBuilder implements Builder<Model> {
     @Autowired
@@ -25,6 +29,7 @@ public class ModelBuilder implements Builder<Model> {
         List<Vector3f> points = new ArrayList<>();
         List<Vector3f> normals = new ArrayList<>();
         List<Vector2f> texCoords = new ArrayList<>();
+
         Resource resource = resourceLoader.getResource("classpath:models/" + name + "/model.obj");
         InputStreamReader streamReader = new InputStreamReader(resource.getInputStream());
         BufferedReader bufferedReader = new BufferedReader(streamReader);
@@ -66,6 +71,7 @@ public class ModelBuilder implements Builder<Model> {
                 }
             }
         });
+
         float[] rawVertices = new float[vertices.size() * 8];
         for (int i = 0; i < vertices.size(); i++) {
             Vertex vertex = vertices.get(i);
@@ -78,6 +84,13 @@ public class ModelBuilder implements Builder<Model> {
             rawVertices[i*8+6] = vertex.getTexCoords().getX();
             rawVertices[i*8+7] = vertex.getTexCoords().getY();
         }
-        return new Model(name, rawVertices, vertices.size());
+
+        int vao = glGenVertexArrays();
+        int vbo = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferData(GL_ARRAY_BUFFER, rawVertices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        return new Model(name, vao, vbo, vertices.size());
     }
 }

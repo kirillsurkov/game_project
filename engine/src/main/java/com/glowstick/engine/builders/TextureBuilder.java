@@ -13,6 +13,8 @@ import java.nio.ByteBuffer;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_DEPTH_COMPONENT32F;
 import static org.lwjgl.opengl.GL30.GL_RGB16F;
+import static org.lwjgl.opengl.GL32.GL_TEXTURE_2D_MULTISAMPLE;
+import static org.lwjgl.opengl.GL32.glTexImage2DMultisample;
 
 @Component
 public class TextureBuilder implements Builder<Texture> {
@@ -27,7 +29,6 @@ public class TextureBuilder implements Builder<Texture> {
         } else {
             glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, pixels);
         }
-        System.out.println(glGetError());
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         return new Texture(name, texture);
@@ -50,8 +51,10 @@ public class TextureBuilder implements Builder<Texture> {
         int height = reader.imgInfo.rows;
         int channels = reader.imgInfo.channels;
         ByteBuffer pixels = ByteBuffer.allocateDirect(width * height * channels);
+        int position = width * height * channels;
         while (reader.hasMoreRows()) {
             byte[] line = reader.readRowByte().getScanline();
+            pixels.position(position -= width * channels);
             pixels.put(line);
         }
         pixels.position(0);

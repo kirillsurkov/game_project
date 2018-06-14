@@ -40,12 +40,15 @@ public class FboEntityBuilder extends NamedEntityBuilder<FboEntity> {
         Texture normalTexture = this.textureBuilder.buildFloat("normal", 800, 600);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, normalTexture.getId(), 0);
 
-        glDrawBuffers(new int[] {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2});
+        Texture glowTexture = this.textureBuilder.buildFloat("glow", 800, 600);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, glowTexture.getId(), 0);
+
+        glDrawBuffers(new int[] {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3});
 
         System.out.println(glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        return new FboEntity(modelCache, shaderCache, textureCache, frameBuffer, depthTexture, positionTexture, normalTexture, colorTexture);
+        return new FboEntity(modelCache, shaderCache, textureCache, frameBuffer, depthTexture, colorTexture, positionTexture, normalTexture, glowTexture);
     }
 }

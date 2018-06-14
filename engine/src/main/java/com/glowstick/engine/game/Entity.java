@@ -22,20 +22,31 @@ public abstract class Entity {
     @Getter
     private Matrix4f modelMatrix = new Matrix4f();
     @Getter
-    private Texture texture;
+    private Texture diffuseMap;
+    @Getter
+    private Texture specularMap;
+    @Getter
+    private Texture normalMap;
+    @Getter
+    private Texture glowMap;
 
     public Entity(ModelCache modelCache, ShaderCache shaderCache, TextureCache textureCache) {
         this.modelCache = modelCache;
         this.shaderCache = shaderCache;
         try {
-            this.texture = textureCache.get("default");
+            this.diffuseMap = textureCache.get("default");
+            this.specularMap = textureCache.get("default");
+            this.normalMap = textureCache.get("default");
+            this.glowMap = textureCache.get("glow");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     protected void addModel(String modelName, String shaderName) throws Exception {
-        this.models.add(new Pair<>(this.modelCache.get(modelName), this.shaderCache.get(shaderName)));
+        Model model = this.modelCache.get(modelName);
+        Shader shader = this.shaderCache.get(shaderName);
+        this.models.add(new Pair<>(model, shader));
     }
 
     public Entity scale(float scale) {

@@ -18,7 +18,7 @@ public abstract class NamedShaderBuilder<T extends Shader> implements Named {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    abstract protected T build(int program, int vao);
+    abstract protected T build(int program);
 
     private String loadSource(String shaderName, String fileName) throws IOException {
         Resource res = resourceLoader.getResource("classpath:shaders/" + shaderName + "/" + fileName);
@@ -43,8 +43,9 @@ public abstract class NamedShaderBuilder<T extends Shader> implements Named {
         glAttachShader(program, fShader);
         glLinkProgram(program);
 
-        int vao = glGenVertexArrays();
+        System.out.println(glGetShaderInfoLog(fShader));
+        System.out.println(glGetShaderInfoLog(vShader));
 
-        return this.build(program, vao);
+        return this.build(program);
     }
 }

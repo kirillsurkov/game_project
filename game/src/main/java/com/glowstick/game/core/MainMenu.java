@@ -11,6 +11,6 @@ public class MainMenu {
     }
 
     public void draw() {
-        this.dummyEntity.draw(null);
+//        this.dummyEntity.draw(null);
     }
 }

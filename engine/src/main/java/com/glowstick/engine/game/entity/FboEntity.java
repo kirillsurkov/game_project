@@ -11,18 +11,20 @@ import lombok.Getter;
 public class FboEntity extends Entity {
     private final int frameBuffer;
     private final Texture depthTexture;
+    private final Texture glowTexture;
     private final Texture positionTexture;
     private final Texture normalTexture;
     private final Texture colorTexture;
 
-    public FboEntity(ModelCache modelCache, ShaderCache shaderCache, TextureCache textureCache, int frameBuffer, Texture depthTexture, Texture positionTexture, Texture normalTexture, Texture colorTexture) throws Exception {
+    public FboEntity(ModelCache modelCache, ShaderCache shaderCache, TextureCache textureCache, int frameBuffer, Texture depthTexture, Texture colorTexture, Texture positionTexture, Texture normalTexture, Texture glowTexture) throws Exception {
         super(modelCache, shaderCache, textureCache);
         this.addModel("plane", "fbo");
         this.frameBuffer = frameBuffer;
         this.depthTexture = depthTexture;
+        this.colorTexture = colorTexture;
         this.positionTexture = positionTexture;
         this.normalTexture = normalTexture;
-        this.colorTexture = colorTexture;
+        this.glowTexture = glowTexture;
     }
 
     @Override

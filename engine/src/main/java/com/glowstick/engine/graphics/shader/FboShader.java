@@ -9,13 +9,8 @@ import static org.lwjgl.opengl.GL20.glUniform1i;
 import static org.lwjgl.opengl.GL20.glUniform3f;
 
 public class FboShader extends Shader {
-    public FboShader(String name, int program, int vao) {
-        super(name, program, vao);
-    }
-
-    @Override
-    public void linkAttributes() {
-        this.linkVertexAttributes();
+    public FboShader(String name, int program) {
+        super(name, program);
     }
 
     @Override
@@ -23,7 +18,8 @@ public class FboShader extends Shader {
         glUniform1i(this.getUniformLocation("colorTexture"), 0);
         glUniform1i(this.getUniformLocation("positionTexture"), 1);
         glUniform1i(this.getUniformLocation("normalTexture"), 2);
-        glUniform1i(this.getUniformLocation("depthTexture"), 3);
+        glUniform1i(this.getUniformLocation("glowTexture"), 3);
+        glUniform1i(this.getUniformLocation("depthTexture"), 4);
 
         Vector3f cameraPos = camera.getPosition();
         glUniform3f(this.getUniformLocation("cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);

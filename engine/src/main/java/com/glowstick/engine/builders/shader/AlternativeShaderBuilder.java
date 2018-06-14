@@ -11,7 +11,7 @@ public class AlternativeShaderBuilder extends NamedShaderBuilder<AlternativeShad
     private String name = "alternative";
 
     @Override
-    protected AlternativeShader build(int program, int vao) {
-        return new AlternativeShader(this.name, program, vao);
+    protected AlternativeShader build(int program) {
+        return new AlternativeShader(this.name, program);
     }
 }

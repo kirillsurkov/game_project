@@ -13,15 +13,13 @@ public abstract class Shader implements Cacheable {
     @Getter
     private final String name;
     private final int program;
-    private final int vao;
 
-    public Shader(String name, int program, int vao) {
+    public Shader(String name, int program) {
         this.name = name;
         this.program = program;
-        this.vao = vao;
     }
 
-    protected void linkVertexAttributes() {
+    public void linkAttributes() {
         int posAttrib = this.getAttribLocation("position");
         glVertexAttribPointer(posAttrib, 3, GL_FLOAT, false, 32, 0);
         glEnableVertexAttribArray(posAttrib);
@@ -33,13 +31,7 @@ public abstract class Shader implements Cacheable {
         glEnableVertexAttribArray(texCoordAttrib);
     }
 
-    abstract public void linkAttributes();
     abstract protected void linkUniforms(Camera camera, Entity entity);
-
-    public void use() {
-        glUseProgram(this.program);
-        glBindVertexArray(this.vao);
-    }
 
     protected int getAttribLocation(String attrib) {
         return glGetAttribLocation(this.program, attrib);
@@ -50,7 +42,7 @@ public abstract class Shader implements Cacheable {
     }
 
     public void bind(Camera camera, Entity entity) {
-        this.use();
+        glUseProgram(this.program);
         this.linkUniforms(camera, entity);
     }
 }

@@ -11,7 +11,7 @@ public class FboShaderBuilder extends NamedShaderBuilder<FboShader> {
     private final String name = "fbo";
 
     @Override
-    protected FboShader build(int program, int vao) {
-        return new FboShader(this.name, program, vao);
+    protected FboShader build(int program) {
+        return new FboShader(this.name, program);
     }
 }

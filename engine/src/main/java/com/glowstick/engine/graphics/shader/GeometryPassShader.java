@@ -10,19 +10,14 @@ import org.lwjgl.util.vector.Vector3f;
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL20.glUniform1i;
-import static org.lwjgl.opengl.GL20.glUniform3f;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 public class GeometryPassShader extends Shader {
-    public GeometryPassShader(String name, int program, int vao) {
-        super(name, program, vao);
-    }
-
-    @Override
-    public void linkAttributes() {
-        this.linkVertexAttributes();
+    public GeometryPassShader(String name, int program) {
+        super(name, program);
     }
 
     @Override
@@ -48,7 +43,11 @@ public class GeometryPassShader extends Shader {
         glUniformMatrix4fv(this.getUniformLocation("uMVP"), false, MVPFloatBuffer.array());
 
         glActiveTexture(GL_TEXTURE0);
-        entity.getTexture().bind();
-        glUniform1i(this.getUniformLocation("uTexture"), 0);
+        entity.getDiffuseMap().bind();
+        glUniform1i(this.getUniformLocation("uDiffuse"), 0);
+
+        glActiveTexture(GL_TEXTURE1);
+        entity.getGlowMap().bind();
+        glUniform1i(this.getUniformLocation("uGlow"), 1);
     }
 }
