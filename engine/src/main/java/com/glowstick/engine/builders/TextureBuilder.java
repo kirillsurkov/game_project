@@ -54,7 +54,7 @@ public class TextureBuilder implements Builder<Texture> {
         int position = width * height * channels;
         while (reader.hasMoreRows()) {
             byte[] line = reader.readRowByte().getScanline();
-            pixels.position(position -= width * channels);
+//            pixels.position(position -= width * channels);
             pixels.put(line);
         }
         pixels.position(0);

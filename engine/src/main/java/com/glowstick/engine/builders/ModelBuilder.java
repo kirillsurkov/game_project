@@ -76,13 +76,13 @@ public class ModelBuilder implements Builder<Model> {
         for (int i = 0; i < vertices.size(); i++) {
             Vertex vertex = vertices.get(i);
             rawVertices[i*8]   = vertex.getCoodrs().getX();
-            rawVertices[i*8+1] = vertex.getCoodrs().getY();
+            rawVertices[i*8+1] = -vertex.getCoodrs().getY();
             rawVertices[i*8+2] = vertex.getCoodrs().getZ();
             rawVertices[i*8+3] = vertex.getNormal().getX();
             rawVertices[i*8+4] = vertex.getNormal().getY();
             rawVertices[i*8+5] = vertex.getNormal().getZ();
             rawVertices[i*8+6] = vertex.getTexCoords().getX();
-            rawVertices[i*8+7] = vertex.getTexCoords().getY();
+            rawVertices[i*8+7] = -vertex.getTexCoords().getY();
         }
 
         int vao = glGenVertexArrays();
