@@ -12,9 +12,7 @@ import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.GL_DEPTH_COMPONENT32F;
-import static org.lwjgl.opengl.GL30.GL_RGB16F;
-import static org.lwjgl.opengl.GL32.GL_TEXTURE_2D_MULTISAMPLE;
-import static org.lwjgl.opengl.GL32.glTexImage2DMultisample;
+import static org.lwjgl.opengl.GL30.GL_RGBA16F;
 
 @Component
 public class TextureBuilder implements Builder<Texture> {
@@ -39,7 +37,7 @@ public class TextureBuilder implements Builder<Texture> {
     }
 
     public Texture buildFloat(String name, int width, int height) {
-        return this.build(name, width, height, GL_RGB16F, GL_RGB, GL_FLOAT, null);
+        return this.build(name, width, height, GL_RGBA16F, GL_RGBA, GL_FLOAT, null);
     }
 
     @Override
@@ -54,7 +52,7 @@ public class TextureBuilder implements Builder<Texture> {
         int position = width * height * channels;
         while (reader.hasMoreRows()) {
             byte[] line = reader.readRowByte().getScanline();
-//            pixels.position(position -= width * channels);
+            pixels.position(position -= width * channels);
             pixels.put(line);
         }
         pixels.position(0);

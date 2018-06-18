@@ -4,6 +4,7 @@ import com.glowstick.engine.builders.TextureBuilder;
 import com.glowstick.engine.cache.ModelCache;
 import com.glowstick.engine.cache.ShaderCache;
 import com.glowstick.engine.game.camera.Camera;
+import com.glowstick.engine.graphics.shader.BlurShader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,17 +18,19 @@ public class Fbo {
     private Model plane;
 
     private Shader fboShader;
-    private Shader blurShader;
+    private BlurShader blurShader;
     private Shader fxaaShader;
 
     private int fboFXAA;
-    private int fboBlur;
+    private int fboBlurPass1;
+    private int fboBlurPass2;
     private int fbo;
 
     private Texture colorTextureFXAA;
     private Texture glowTextureFXAA;
 
-    private Texture glowTextureBlur;
+    private Texture colorTextureBlurPass1;
+    private Texture colorTextureBlurPass2;
 
     private Texture depthTexture;
     private Texture colorTexture;
@@ -40,7 +43,7 @@ public class Fbo {
         this.plane = modelCache.get("plane");
 
         this.fboShader = shaderCache.get("fbo");
-        this.blurShader = shaderCache.get("blur");
+        this.blurShader = (BlurShader)shaderCache.get("blur");
         this.fxaaShader = shaderCache.get("fxaa");
 
         // TODO: move to service
@@ -55,11 +58,19 @@ public class Fbo {
 
         glDrawBuffers(new int[] {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1});
 
-        this.fboBlur = glGenFramebuffers();
-        glBindFramebuffer(GL_FRAMEBUFFER, this.fboBlur);
+        this.fboBlurPass1 = glGenFramebuffers();
+        glBindFramebuffer(GL_FRAMEBUFFER, this.fboBlurPass1);
 
-        this.glowTextureBlur = textureBuilder.buildFloat("glowBlur", 800, 600);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, glowTextureBlur.getId(), 0);
+        this.colorTextureBlurPass1 = textureBuilder.buildFloat("glowBlurPass1", 800, 600);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTextureBlurPass1.getId(), 0);
+
+        glDrawBuffers(new int[] {GL_COLOR_ATTACHMENT0});
+
+        this.fboBlurPass2 = glGenFramebuffers();
+        glBindFramebuffer(GL_FRAMEBUFFER, this.fboBlurPass2);
+
+        this.colorTextureBlurPass2 = textureBuilder.buildFloat("glowBlurPass2", 800, 600);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTextureBlurPass2.getId(), 0);
 
         glDrawBuffers(new int[] {GL_COLOR_ATTACHMENT0});
 
@@ -102,11 +113,16 @@ public class Fbo {
         this.glowTexture.bind();
         this.plane.draw(this.fxaaShader, camera, null);
 
-        glBindFramebuffer(GL_FRAMEBUFFER, this.fboBlur);
+        glBindFramebuffer(GL_FRAMEBUFFER, this.fboBlurPass1);
         glActiveTexture(GL_TEXTURE0);
         this.colorTextureFXAA.bind();
-        glActiveTexture(GL_TEXTURE1);
-        this.glowTextureFXAA.bind();
+        this.blurShader.setFirstPass(true);
+        this.plane.draw(this.blurShader, camera, null);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, this.fboBlurPass2);
+        glActiveTexture(GL_TEXTURE0);
+        this.colorTextureBlurPass1.bind();
+        this.blurShader.setFirstPass(false);
         this.plane.draw(this.blurShader, camera, null);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -117,9 +133,9 @@ public class Fbo {
         glActiveTexture(GL_TEXTURE2);
         this.normalTexture.bind();
         glActiveTexture(GL_TEXTURE3);
-        this.glowTexture.bind();
+        this.glowTextureFXAA.bind();
         glActiveTexture(GL_TEXTURE4);
-        this.glowTextureBlur.bind();
+        this.colorTextureBlurPass2.bind();
         glActiveTexture(GL_TEXTURE5);
         this.depthTexture.bind();
         this.plane.draw(this.fboShader, camera, null);

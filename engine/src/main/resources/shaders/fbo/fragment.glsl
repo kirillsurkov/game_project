@@ -17,8 +17,8 @@ void main()
 {
     vec3 fragPos = texture2D(positionTexture, uv).xyz;
     vec3 normal = texture2D(normalTexture, uv).xyz;
-    float glow = texture2D(glowTexture, vec2(uv.x, -uv.y)).r;
-    vec3 glowColor = texture2D(glowTextureBlur, vec2(uv.x, -uv.y)).rgb;
+    float glow = texture2D(colorTexture, uv).a;
+    vec3 glowColor = texture2D(glowTextureBlur, uv).rgb;
 
     vec3 lightVector = lightPos - fragPos;
     vec3 lightDir = normalize(lightVector);

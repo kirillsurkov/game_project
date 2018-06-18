@@ -14,7 +14,7 @@ in vec2 fTexCoord;
 
 void main()
 {
-    gColor = vec4(texture2D(uDiffuse, fTexCoord).rgb, 1);
+    gColor = texture2D(uDiffuse, fTexCoord);
     gPosition = fPosition;
     gNormal = normalize(fNormal);
     gGlow = texture2D(uGlow, fTexCoord).rgb;

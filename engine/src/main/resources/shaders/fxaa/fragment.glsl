@@ -10,8 +10,8 @@ in vec2 uv;
 layout (location = 0) out vec4 gColor;
 layout (location = 1) out vec3 gGlow;
 
-#define FXAA_REDUCE_MIN   (1.0/ 128.0)
-#define FXAA_REDUCE_MUL   (1.0 / 8.0)
+#define FXAA_REDUCE_MIN   (1.0 / 128.0)
+#define FXAA_REDUCE_MUL   (1.0 /   8.0)
 #define FXAA_SPAN_MAX 8.0
 
 vec4 fxaa(sampler2D tex, vec2 uv, vec2 resolution,
@@ -20,18 +20,17 @@ vec4 fxaa(sampler2D tex, vec2 uv, vec2 resolution,
             vec2 v_rgbM) {
     vec4 color;
     vec2 inverseVP = 1.0 / resolution;
-    vec3 rgbNW = texture2D(tex, v_rgbNW).xyz;
-    vec3 rgbNE = texture2D(tex, v_rgbNE).xyz;
-    vec3 rgbSW = texture2D(tex, v_rgbSW).xyz;
-    vec3 rgbSE = texture2D(tex, v_rgbSE).xyz;
-    vec4 texColor = texture2D(tex, v_rgbM);
-    vec3 rgbM  = texColor.xyz;
+    vec4 rgbaNW = texture2D(tex, v_rgbNW);
+    vec4 rgbaNE = texture2D(tex, v_rgbNE);
+    vec4 rgbaSW = texture2D(tex, v_rgbSW);
+    vec4 rgbaSE = texture2D(tex, v_rgbSE);
+    vec4 rgbaM = texture2D(tex, v_rgbM);
     vec3 luma = vec3(0.299, 0.587, 0.114);
-    float lumaNW = dot(rgbNW, luma);
-    float lumaNE = dot(rgbNE, luma);
-    float lumaSW = dot(rgbSW, luma);
-    float lumaSE = dot(rgbSE, luma);
-    float lumaM  = dot(rgbM,  luma);
+    float lumaNW = dot(rgbaNW.rgb * rgbaNW.a, luma);
+    float lumaNE = dot(rgbaNE.rgb * rgbaNE.a, luma);
+    float lumaSW = dot(rgbaSW.rgb * rgbaSW.a, luma);
+    float lumaSE = dot(rgbaSE.rgb * rgbaSE.a, luma);
+    float lumaM  = dot(rgbaM.rgb * rgbaM.a,  luma);
     float lumaMin = min(lumaM, min(min(lumaNW, lumaNE), min(lumaSW, lumaSE)));
     float lumaMax = max(lumaM, max(max(lumaNW, lumaNE), max(lumaSW, lumaSE)));
 
@@ -47,18 +46,18 @@ vec4 fxaa(sampler2D tex, vec2 uv, vec2 resolution,
               max(vec2(-FXAA_SPAN_MAX, -FXAA_SPAN_MAX),
               dir * rcpDirMin)) * inverseVP;
 
-    vec3 rgbA = 0.5 * (
-        texture2D(tex, uv + dir * (1.0 / 3.0 - 0.5)).xyz +
-        texture2D(tex, uv + dir * (2.0 / 3.0 - 0.5)).xyz);
-    vec3 rgbB = rgbA * 0.5 + 0.25 * (
-        texture2D(tex, uv + dir * -0.5).xyz +
-        texture2D(tex, uv + dir * 0.5).xyz);
+    vec4 rgbaA = 0.5 * (
+        texture2D(tex, uv - dir * 1.0 / 6.0) +
+        texture2D(tex, uv + dir * 1.0 / 6.0));
+    vec4 rgbaB = rgbaA * 0.5 + 0.25 * (
+        texture2D(tex, uv - dir * 0.5) +
+        texture2D(tex, uv + dir * 0.5));
 
-    float lumaB = dot(rgbB, luma);
+    float lumaB = dot(rgbaB.rgb, luma);
     if ((lumaB < lumaMin) || (lumaB > lumaMax))
-        color = vec4(rgbA, texColor.a);
+        color = rgbaA;
     else
-        color = vec4(rgbB, texColor.a);
+        color = rgbaB;
     return color;
 }
 
@@ -73,5 +72,4 @@ vec4 FXAA(sampler2D tex, vec2 uv) {
 
 void main() {
     gColor = FXAA(colorTexture, uv);
-    gGlow = FXAA(glowTexture, uv).rgb;
 }

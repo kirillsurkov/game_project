@@ -1,36 +1,27 @@
 #version 330 core
 
 uniform sampler2D colorTexture;
-uniform sampler2D glowTexture;
+uniform bool firstPass;
 
 uniform vec2 resolution = vec2(800, 600);
 
 in vec2 uv;
 
-layout (location = 0) out vec3 gGlow;
+layout (location = 0) out vec4 gGlow;
 
-const int kernelSize = 7;
-const float kernel[kernelSize*kernelSize] = float[] (0.006781, 0.006747, 0.006646, 0.006482, 0.006259, 0.005984, 0.005664, 0.006747, 0.006713, 0.006613, 0.006450, 0.006228, 0.005954, 0.005635, 0.006646, 0.006613, 0.006515, 0.006354, 0.006135, 0.005865, 0.005551, 0.006482, 0.006450, 0.006354, 0.006197, 0.005984, 0.005720, 0.005414, 0.006259, 0.006228, 0.006135, 0.005984, 0.005778, 0.005524, 0.005228, 0.005984, 0.005954, 0.005865, 0.005720, 0.005524, 0.005281, 0.004998, 0.005664, 0.005635, 0.005551, 0.005414, 0.005228, 0.004998, 0.004731);
-vec3 blur13(sampler2D glowMask, sampler2D image, vec2 uv) {
-    vec4 color = vec4(0.0);
-    vec2 resolution = textureSize(image, 0);
-    float r = 1.5;
-    for (int i = 0; i < kernelSize; i++) {
-        for (int j = 0; j < kernelSize; j++) {
-            float w = kernel[j * kernelSize + i];
-            vec2 off1 = uv + r*vec2( i,  j) / resolution;
-            vec2 off2 = uv + r*vec2( i, -j) / resolution;
-            vec2 off3 = uv + r*vec2(-i,  j) / resolution;
-            vec2 off4 = uv + r*vec2(-i, -j) / resolution;
-            color += texture2D(glowMask, off1) * texture2D(image, off1) * w;
-            if (j != 0) color += texture2D(glowMask, off2) * texture2D(image, off2) * w;
-            if (i != 0) color += texture2D(glowMask, off3) * texture2D(image, off3) * w;
-            if (j != 0) color += texture2D(glowMask, off4) * texture2D(image, off4) * w;
-        }
-    }
-    return color.rgb;
-}
+const float kernel[13] = float[] (0.061539, 0.060915, 0.059078, 0.056140, 0.052270, 0.047683, 0.042620, 0.037326, 0.032028, 0.026928, 0.022182, 0.017903, 0.014158);
 
 void main() {
-    gGlow = blur13(glowTexture, colorTexture, uv).rgb;
+    vec2 step = vec2(firstPass, !firstPass) / resolution;
+    float r = 1;
+    vec4 res = texture2D(colorTexture, uv) * kernel[0];
+    for (int i = 1; i < kernel.length(); i++) {
+        float w = kernel[i];
+        vec2 offset = i*r*step;
+        vec4 frag1 = texture2D(colorTexture, uv + offset);
+        vec4 frag2 = texture2D(colorTexture, uv - offset);
+        res += w * frag1 * frag1.a;
+        res += w * frag2 * frag2.a;
+    }
+    gGlow = vec4(res.rgb, res.a > 0 ? 1 : 0);
 }

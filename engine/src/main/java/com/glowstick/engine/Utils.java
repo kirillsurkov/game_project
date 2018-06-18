@@ -40,7 +40,7 @@ public class Utils {
         float f = (float)(1.0f / Math.tan(fovy / 2.0));
         matrix.setIdentity();
         matrix.m00 = f / aspect;
-        matrix.m11 = -f;
+        matrix.m11 = f;
         matrix.m22 = (zFar + zNear) / (zNear - zFar);
         matrix.m23 = -1;
         matrix.m32 = 2 * zFar * zNear / (zNear - zFar);
