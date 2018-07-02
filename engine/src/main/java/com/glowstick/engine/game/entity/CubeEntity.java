@@ -18,6 +18,6 @@ public class CubeEntity extends Entity {
     public void update(double delta) {
         this.time += delta;
         this.rotate((float)(delta / 5.0), new Vector3f(0, 1, 0));
-//        this.move((float)Math.cos(this.time * 10) / 10.0f, (float)Math.sin(this.time * 10) / 10.0f);
+        //this.move((float)Math.cos(this.time * 10) / 10.0f, (float)Math.sin(this.time * 10) / 10.0f, 0);
     }
 }

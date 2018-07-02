@@ -18,9 +18,8 @@ public class FboShader extends Shader {
         glUniform1i(this.getUniformLocation("colorTexture"), 0);
         glUniform1i(this.getUniformLocation("positionTexture"), 1);
         glUniform1i(this.getUniformLocation("normalTexture"), 2);
-        glUniform1i(this.getUniformLocation("glowTexture"), 3);
-        glUniform1i(this.getUniformLocation("glowTextureBlur"), 4);
-        glUniform1i(this.getUniformLocation("depthTexture"), 5);
+        glUniform1i(this.getUniformLocation("glowTextureBlur"), 3);
+        glUniform1i(this.getUniformLocation("depthTexture"), 4);
 
         Vector3f cameraPos = camera.getPosition();
         glUniform3f(this.getUniformLocation("cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);

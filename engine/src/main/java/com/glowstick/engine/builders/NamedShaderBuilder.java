@@ -27,7 +27,7 @@ public abstract class NamedShaderBuilder<T extends Shader> implements Named {
         return String.join("\n", bufferedReader.lines().collect(Collectors.toList()));
     }
 
-    public T build() throws IOException {
+    public T build(int width, int height) throws IOException {
         String vShaderSrc = loadSource(this.getName(), "vertex.glsl");
         int vShader = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vShader, vShaderSrc);
@@ -46,6 +46,10 @@ public abstract class NamedShaderBuilder<T extends Shader> implements Named {
         System.out.println(glGetShaderInfoLog(fShader));
         System.out.println(glGetShaderInfoLog(vShader));
 
-        return this.build(program);
+        T shader = this.build(program);
+        shader.setWidth(width);
+        shader.setHeight(height);
+
+        return shader;
     }
 }

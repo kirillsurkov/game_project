@@ -4,15 +4,21 @@ import com.glowstick.engine.extension.Cacheable;
 import com.glowstick.engine.game.camera.Camera;
 import com.glowstick.engine.game.Entity;
 import lombok.Getter;
+import lombok.Setter;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public abstract class Shader implements Cacheable {
     @Getter
     private final String name;
     private final int program;
+    @Setter
+    private boolean enabled = true;
+    @Setter
+    private int width;
+    @Setter
+    private int height;
 
     public Shader(String name, int program) {
         this.name = name;
@@ -44,5 +50,8 @@ public abstract class Shader implements Cacheable {
     public void bind(Camera camera, Entity entity) {
         glUseProgram(this.program);
         this.linkUniforms(camera, entity);
+        glUniform1i(this.getUniformLocation("enabled"), this.enabled ? 1 : 0);
+        glUniform2f(this.getUniformLocation("resolution"), this.width, this.height);
+
     }
 }

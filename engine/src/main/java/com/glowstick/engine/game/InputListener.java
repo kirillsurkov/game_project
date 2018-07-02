@@ -19,8 +19,8 @@ public class InputListener {
     private double mouseY;
 
     public void onKeyboard(long window, int key, int scancode, int action, int mods) {
-        this.keyboard.put(key, action == GLFW_PRESS);
-        this.keyboardPressed.put(key, action == GLFW_PRESS);
+        this.keyboard.put(key, action != GLFW_RELEASE);
+        this.keyboardPressed.put(key, action != GLFW_RELEASE);
     }
 
     public void onMouse(long window, int button, int action, int mods) {

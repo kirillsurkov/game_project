@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 public class EngineModule {
     @Bean
     public Window window() throws Exception {
-        return new Window("test", 800, 600);
+        int width = 1280;
+        int height = 720;
+        return new Window("test", width, height, false);
     }
 }

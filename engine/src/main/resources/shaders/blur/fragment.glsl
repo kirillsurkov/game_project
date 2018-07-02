@@ -2,8 +2,7 @@
 
 uniform sampler2D colorTexture;
 uniform bool firstPass;
-
-uniform vec2 resolution = vec2(800, 600);
+uniform vec2 resolution;
 
 in vec2 uv;
 
@@ -23,5 +22,5 @@ void main() {
         res += w * frag1 * frag1.a;
         res += w * frag2 * frag2.a;
     }
-    gGlow = vec4(res.rgb, res.a > 0 ? 1 : 0);
+    gGlow = vec4(res.rgb, 1.5*pow(res.a, 0.25));
 }

@@ -26,7 +26,5 @@ void main()
 
     float ambient = 0.1;
 
-//    outColor = vec4(vec3(glow), 0);//(glow + glow2) + (ambient + diffuse * (1 - ambient)) * texture(colorTexture, uv);//*vec4(fragPos*10, 1);// * vec4(texture(colorTexture, uv).rgb * (0.5 + texture(depthTexture, uv).rgb * 0.5), 1);
-
     outColor = vec4(glowColor + min(glow + ambient + diffuse * (1 - ambient), 1) * texture2D(colorTexture, uv).rgb, 1);
 }
