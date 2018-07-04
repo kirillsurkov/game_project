@@ -45,7 +45,7 @@ vec4 fxaa(sampler2D tex, vec2 resolution,
     float rcpDirMin = 1.0 / (min(abs(dir.x), abs(dir.y)) + dirReduce);
     dir = min(vec2(FXAA_SPAN_MAX, FXAA_SPAN_MAX), max(vec2(-FXAA_SPAN_MAX, -FXAA_SPAN_MAX), dir * rcpDirMin)) * inverseVP;
 
-    vec4 rgbaA = 0.5 * (texture2D(tex, uv - dir * 1.0 / 6.0) + texture2D(tex, uv + dir * 1.0 / 6.0));
+    vec4 rgbaA = 0.5 * (texture2D(tex, uv - dir / 6.0) + texture2D(tex, uv + dir / 6.0));
     vec4 rgbaB = rgbaA * 0.5 + 0.25 * (texture2D(tex, uv - dir * 0.5) + texture2D(tex, uv + dir * 0.5));
 
     float lumaB = dot(rgbaB.rgb, luma);

@@ -57,9 +57,11 @@ public class Fbo {
 
         this.fboShader = shaderCache.get("fbo");
         this.copyShader = (CopyShader)shaderCache.get("copy");
-        this.blurShader = (BlurShader)shaderCache.get("blur");
         this.fxaaShader = (FXAAShader)shaderCache.get("fxaa");
+        this.blurShader = (BlurShader)shaderCache.get("blur");
+        this.blurShader.setBlur(8f);
         this.motionBlurShader = (MotionBlurShader)shaderCache.get("motionblur");
+        this.motionBlurShader.setBlur(2f);
 
         this.fbo = glGenFramebuffers();
         glBindFramebuffer(GL_FRAMEBUFFER, this.fbo);
@@ -73,7 +75,7 @@ public class Fbo {
         this.fboTexture = textureBuilder.buildFloat("fbo", width, height);
 
         this.frames = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < this.motionBlurShader.getFramesCount(); i++) {
             this.frames.add(textureBuilder.buildFloat("prevFrame" + i, this.width, this.height));
         }
     }
@@ -137,15 +139,19 @@ public class Fbo {
     public void draw(Gbo gbo, Camera camera) {
         glBindFramebuffer(GL_FRAMEBUFFER, this.fbo);
 
-        Texture out = this.fboTexture;
+        Texture out = this.fxaaTexture;
 
-        this.fxaa(gbo.getColorTexture(), this.fxaaTexture, 4, camera);
-        this.blur(this.fxaaTexture, this.blurTexture, camera);
+        this.blur(gbo.getColorTexture(), this.blurTexture, camera);
+        this.compose(gbo, gbo.getColorTexture(), this.blurTexture, this.fboTexture, camera);
+        this.fxaa(this.fboTexture, this.fxaaTexture, 1, camera);
         this.motionBlur(this.fxaaTexture, this.motionBlurTexture, camera);
-        this.compose(gbo, this.motionBlurTexture, this.blurTexture, this.fboTexture, camera);
 
         if (this.inputListener.isKeyDown(GLFW_KEY_F)) {
             out = this.motionBlurTexture;
+        }
+
+        if (this.inputListener.isKeyDown(GLFW_KEY_G)) {
+            out = gbo.getColorTexture();
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

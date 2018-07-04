@@ -1,14 +1,15 @@
 #version 330 core
 
+#define count 13
+
 uniform sampler2D colorTexture;
 uniform bool firstPass;
 uniform vec2 resolution;
+uniform float kernel[count];
 
 in vec2 uv;
 
 layout (location = 0) out vec4 gGlow;
-
-const float kernel[13] = float[] (0.061539, 0.060915, 0.059078, 0.056140, 0.052270, 0.047683, 0.042620, 0.037326, 0.032028, 0.026928, 0.022182, 0.017903, 0.014158);
 
 void main() {
     vec2 step = vec2(firstPass, !firstPass) / resolution;

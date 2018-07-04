@@ -31,13 +31,6 @@ public class Graphics {
 
     public void loop() {
         double oldTime = System.nanoTime() / 1000000000.0;
-        glEnable( GL_LINE_SMOOTH );
-        glEnable( GL_POLYGON_SMOOTH );
-        glHint( GL_LINE_SMOOTH_HINT, GL_NICEST );
-        glHint( GL_POLYGON_SMOOTH_HINT, GL_NICEST );
-        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-        //glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0, 0, 0, 1);
 
         while (this.window.isAlive()) {
